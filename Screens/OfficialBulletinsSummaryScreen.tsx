@@ -158,7 +158,7 @@ console.log("Role:", role);
         data={todayBulletins}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        ListEmptyComponent={<Text>No bulletins from today</Text>}
+        ListEmptyComponent={<Text style={{ fontSize: fontContext?.fontSize || 16, color: "black" }}>No bulletins from today</Text>}
       />
 
       <Text style={{ fontSize: fontContext?.fontSize || 16, color: "black" }}>

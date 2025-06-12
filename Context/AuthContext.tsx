@@ -11,15 +11,12 @@ import { ApiLogin } from "../api";
 
 function parseJwt(token: string) {
   try {
-    return JSON.parse(atob(token.split('.')[1]));
+    return JSON.parse(atob(token.split(".")[1]));
   } catch (e) {
     console.error("JWT parsing failed", e);
     return null;
   }
 }
-
-
-
 
 interface AuthContextType {
   token: string | null;
@@ -51,7 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     setAuthState(token, role, username);
-  }, [token, role]);
+  }, [username, token, role]);
 
   const getAuthState = async () => {
     try {
@@ -112,43 +109,44 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const response = await ApiLogin(username, password);
       console.log("API Login Response:", response);
       console.log(response);
-      if (response.success && response.token) {{
-        setToken(response.token);
+      if (response.success && response.token) {
+        {
+          setToken(response.token);
 
-  const decoded = parseJwt(response.token);
-
-
-
-
-  if (decoded && (decoded.role === "Administrator" || decoded.role === "Member")) {
-    setRole(decoded.role);
-  } else {
-    setRole(null);
-  }
+          const decoded = parseJwt(response.token);
+          console.log("Decoded JWT:", decoded);
 
 
+          const roleClaim = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
 
+          if (roleClaim === "Administrator" || roleClaim === "Member"){
+            setRole(roleClaim);
+
+          }
+          else{setRole(null);}
 
 
-/*         if (response.role === "Administrator" || response.role === "Member") {
+        /*   if (
+            decoded &&
+            (decoded.role === "Administrator" || decoded.role === "Member")
+          ) {
+            setRole(decoded.role);
+          } else {
+            setRole(null);
+          }
+ */
+          /*         if (response.role === "Administrator" || response.role === "Member") {
           setRole(response.role);
         } else {
           setRole(null); */
-
-
-
-
-
         }
         setUsername(username);
-      
 
         //console.log(`Login successful. Assigned role: ${assignedRole}`);
 
         return true;
-      
-      
+
         /*       if (response.success && response.token) {
         setToken(response.token);
 
@@ -194,6 +192,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     console.log("Logging out user...");
+    setUsername(null),
     setToken(null);
     setRole(null);
 
