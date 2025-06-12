@@ -108,26 +108,44 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const response = await ApiLogin(username, password);
       console.log("API Login Response:", response);
+
+console.log("Full API Response:", response);
+console.log("Raw Token:", response?.token);
+
+
+      
       console.log(response);
       if (response.success && response.token) {
         {
           setToken(response.token);
 
           const decoded = parseJwt(response.token);
-          console.log("Decoded JWT:", decoded);
 
 
-          const roleClaim = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+          console.log("Full Decoded JWT Payload:", decoded);
+console.log("Available Keys in JWT:", Object.keys(decoded || {}));
 
 
-          if (roleClaim === "Administrator" || roleClaim === "Member"){
-            setRole(roleClaim);
+          console.log("Decoded JWT:", decoded?.role);
 
+
+          const roleClaimKey = Object.keys(decoded).find(key => key.includes("role"));
+const role = roleClaimKey ? decoded[roleClaimKey] : null;
+
+console.log("Extracted Role:", role);
+
+
+          //const roleClaim = decoded.role;
+
+          console.log("Extracted role from token:", role);
+
+          if (role === "Administrator" || role === "Member") {
+            setRole(role);
+          } else {
+            setRole(null);
           }
-          else{setRole(null);}
 
-
-        /*   if (
+          /*   if (
             decoded &&
             (decoded.role === "Administrator" || decoded.role === "Member")
           ) {
@@ -192,8 +210,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     console.log("Logging out user...");
-    setUsername(null),
-    setToken(null);
+    setUsername(null), setToken(null);
     setRole(null);
 
     AsyncStorage.removeItem(STORAGE_KEY)

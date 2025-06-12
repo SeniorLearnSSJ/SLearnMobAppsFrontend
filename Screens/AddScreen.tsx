@@ -27,7 +27,7 @@ export default function AddScreen({ navigation }: AddScreenProps) {
 
   //  const [id, setId] = useState('');
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState<number | null>(null);
   const [content, setContent] = useState("");
   const fontContext = useContext(FontContext);
 
@@ -37,7 +37,7 @@ export default function AddScreen({ navigation }: AddScreenProps) {
       return;
     }
 
-    if (!title.trim() || !category.trim()) {
+    if (!title.trim() || !category) {
       alert("Fill all fields");
       return;
     }
@@ -86,7 +86,7 @@ export default function AddScreen({ navigation }: AddScreenProps) {
     }
   };
 
-  const handleTypeSelect = (category: string) => {
+  const handleTypeSelect = (category: number) => {
     setCategory(category);
   };
 
@@ -126,7 +126,7 @@ export default function AddScreen({ navigation }: AddScreenProps) {
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <TouchableOpacity
           style={styles.event}
-          onPress={() => handleTypeSelect("Interest")}
+          onPress={() => handleTypeSelect(1)}
         >
           <Text
             style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
@@ -138,7 +138,7 @@ export default function AddScreen({ navigation }: AddScreenProps) {
 
         <TouchableOpacity
           style={styles.event}
-          onPress={() => handleTypeSelect("Event")}
+          onPress={() => handleTypeSelect(2)}
         >
           <Text
             style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
@@ -150,7 +150,7 @@ export default function AddScreen({ navigation }: AddScreenProps) {
 
         <TouchableOpacity
           style={styles.event}
-          onPress={() => handleTypeSelect("Update")}
+          onPress={() => handleTypeSelect(3)}
         >
           <Text
             style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}

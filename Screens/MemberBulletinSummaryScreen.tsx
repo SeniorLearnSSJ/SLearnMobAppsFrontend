@@ -102,6 +102,8 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
             },
           });
           const result = await response.json();
+          console.log("Fetched result:", result);
+
           if (result.data) {
             setBulletins(result.data);
           }
@@ -133,8 +135,10 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
       onPress={() => {
         setInput(item);
         setSuggestion([]);
+
         const bulletin = findBulletinByTitle(item);
         if (bulletin) {
+          console.log("Navigating with item:", item);
           navigation.navigate("MemberBulletinDetails", { item: bulletin });
         }
       }}

@@ -36,6 +36,8 @@ export default function MemberBulletinDetailsScreen({
   }
   const { bulletins, deleteBulletin, loadingMember } = context;
   const { item } = route.params;
+  console.log("item content:", item.content);
+
 
   const deleteItem = async (idToDelete: string) => {
     try {
@@ -67,6 +69,7 @@ export default function MemberBulletinDetailsScreen({
       </View>
     );
   }
+
 
   return (
     <ScrollView
