@@ -1,0 +1,20 @@
+/* {
+  "entryPoints": ["./"],
+  "out": "docs",
+  "excludeExternals": false,
+  "excludePrivate": false,
+  "excludeProtected": false,
+  "includeVersion": true,
+  "tsconfig": "tsconfig.json"
+} */
+
+{
+  "entryPoints": ["./"],
+  "out": "docs",
+  "tsconfig": "tsconfig.json",
+  "plugin": ["typedoc-plugin-missing-exports"],
+  "excludeExternals": false,
+  "includeVersion": true,
+  "excludePrivate": true,
+  "excludeProtected": true
+}
