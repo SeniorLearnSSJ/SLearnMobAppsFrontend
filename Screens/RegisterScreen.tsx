@@ -1,3 +1,7 @@
+/**
+ * Imports React and React Native components, along with navigation props, custom types and interfaces, and the logLogin function.
+ */
+
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -16,12 +20,25 @@ import { useContext } from "react";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 
+/**
+ * Adds screen to navigation stack.
+ */
+
 type RegisterScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "Register"
 >;
 
+/**
+ * Makes URL readable.
+ */
 const API_BASE = "http://192.168.1.244:5143/api/auth";
+
+/**
+ * Defines the component
+ * @param param0 Nav props
+ * @returns UI
+ */
 
 export default function RegisterScreen({ navigation }: RegisterScreenProps) {
   const auth = useContext(AuthContext);
@@ -65,6 +82,11 @@ const [registerData, setRegisterData] = useState({
   }, []);
  */
 
+  /**
+   * A method to handle form submission with validation.
+   * @returns No specific value
+   */
+
   const handleSubmit = async () => {
     // Assuming you have form fields like 'username', 'email', etc.
     if (
@@ -103,6 +125,9 @@ const [registerData, setRegisterData] = useState({
     }
   };
 
+  /**
+   * The UI
+   */
   return (
     <ScrollView>
       <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
@@ -185,6 +210,9 @@ const [registerData, setRegisterData] = useState({
   );
 }
 
+/**
+ * Styling
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

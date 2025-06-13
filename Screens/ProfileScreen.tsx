@@ -1,3 +1,7 @@
+/**
+ * Imports React and React Native components, along with navigation props, custom types and interfaces, and the logLogin function.
+ */
+
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -18,9 +22,23 @@ import { ItemContext } from "../Context/context";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 
+
+/**
+ * Adds screen to navigation stack.
+ */
 type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, "Profile">;
 
+/**
+ * Makes URL readable.
+ */
+
 const API_URL = "http://192.168.1.244:5143/api/profile";
+
+/**
+ * Defines functional component.
+ * @param param0 Nav props
+ * @returns UI
+ */
 
 export default function ProfileScreen({ navigation }: ProfileScreenProps) {
   const { login } = useAuth();
@@ -100,6 +118,10 @@ setUsername (data.username);
   }, []);
  */
 
+
+  /**
+   * This hook fetches the profile from the backend, and updates the UI fields accordingly.  It runs whenever the token changes.
+   */
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -133,11 +155,19 @@ setUsername (data.username);
     fetchProfile();
   }, [token]);
 
+
+  /**
+   * This function logs out by calling the logout function from authorisation context.
+   */
   const handleLogout = () => {
     authContext.logout();
     navigation.reset({ index: 0, routes: [{ name: "Atrium" }] });
   };
 
+  /**
+   * This handles form submission with valdiation.
+   * @returns no specific value
+   */
   const handleSubmit = async () => {
     // Assuming you have form fields like 'username', 'email', etc.
     if (
@@ -223,7 +253,9 @@ setUsername (data.username);
   } catch (error) {
     console.error('Error creating item:', error);
   } */
-
+/**
+ * This defines the UI.
+ */
   return (
     <ScrollView>
       <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
@@ -404,6 +436,10 @@ setUsername (data.username);
     </ScrollView>
   );
 }
+
+/**
+ * Styling
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

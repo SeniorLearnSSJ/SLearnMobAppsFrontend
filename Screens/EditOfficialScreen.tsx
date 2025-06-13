@@ -1,3 +1,7 @@
+/**
+ * This imports React and React Native components, as well as navigation props, context and authorisation hook useAuth.
+ */
+
 import React from "react";
 import { View, Text, Button, TextInput, TouchableOpacity } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -10,12 +14,25 @@ import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native";
 
+/**
+ * This adds the screen to the navigation stack.
+ */
+
 type EditOfficialScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "EditOfficial"
 >;
 
+/**
+ * This makes the URL readable.
+ */
 const API_BASE = "http://192.168.1.244:5143/api/bulletins/official";
+
+/**
+ * This functional component takes navigation props and route parameters. It returns the UI and manages state.
+ * @param param0 Navigation props and route params
+ * @returns UI
+ */
 
 export default function EditOfficialScreen({
   navigation,
@@ -38,6 +55,10 @@ export default function EditOfficialScreen({
   const fontContext = useContext(FontContext);
   const { username } = useAuth();
 
+  /**
+   * This function handles form submission.
+   * @returns It has no return value.
+   */
   const handleSubmit = async () => {
     if (!title.trim() || !content.trim()) {
       alert("Fill all fields");
@@ -76,6 +97,11 @@ export default function EditOfficialScreen({
     }
   };
 
+
+  /**
+   * This function takes the ID as string.  It implements the delete method on the bulletin with the matching ID on the backend.
+   * @param id 
+   */
   const deleteItem = async (id: string) => {
     try {
       const response = await fetch(`${API_BASE}/${id}`, {
@@ -104,6 +130,9 @@ export default function EditOfficialScreen({
     navigation.navigate("OfficialBulletinsSummary");
   }; */
 
+  /**
+   * This is the user interface.  
+   */
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.headerRow}>
@@ -188,6 +217,9 @@ export default function EditOfficialScreen({
   );
 }
 
+/**
+ * This is the UI styling.
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

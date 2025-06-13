@@ -1,3 +1,7 @@
+/**
+ * This imports React and React Native components, along with nav props, context, custom types and a custom hook.
+ */
+
 import React from "react";
 import {
   View,
@@ -16,13 +20,26 @@ import { useAuth } from "../Context/AuthContext";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 
+/**
+ * This makes the URL readable and easier to handle
+ */
+
 const API_URL = "http://192.168.1.244:5143/api/bulletins/member";
+
+/**
+ * This adds the screen to the navigation stack.
+ */
 
 type MemberBulletinDetailsScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "MemberBulletinDetails"
 >;
 
+/**
+ * This functional component takes navigation props and route params, and returns a UI.
+ * @param param0 nav props, route params
+ * @returns UI
+ */
 export default function MemberBulletinDetailsScreen({
   navigation,
   route,
@@ -38,7 +55,10 @@ export default function MemberBulletinDetailsScreen({
   const { item } = route.params;
   console.log("item content:", item.content);
 
-
+  /**
+   * This function identifies an item by ID and deletes it by calling the deleteBulletin function from context. DeleteItem removes the data from the backend, while deleteBulletin updates context and therefore the live state of the app.
+   * @param idToDelete
+   */
   const deleteItem = async (idToDelete: string) => {
     try {
       const response = await fetch(`${API_URL}/${idToDelete}`, {
@@ -53,13 +73,16 @@ export default function MemberBulletinDetailsScreen({
         throw new Error(`Error: ${response.status}`);
       }
 
+      deleteBulletin(idToDelete);
+      navigation.navigate("MemberBulletinSummary");
+
       console.log(`Item with ID ${idToDelete} deleted successfully.`);
     } catch (error) {
       console.error("Error deleting item:", error);
     }
 
-    deleteBulletin(idToDelete);
-    navigation.navigate("MemberBulletinSummary");
+    /*     deleteBulletin(idToDelete);
+    navigation.navigate("MemberBulletinSummary"); */
   };
 
   if (loadingMember) {
@@ -71,6 +94,9 @@ export default function MemberBulletinDetailsScreen({
   }
 
 
+  /**
+   * This is the UI.
+   */
   return (
     <ScrollView
       style={styles.container}
@@ -139,6 +165,10 @@ export default function MemberBulletinDetailsScreen({
     </ScrollView>
   );
 }
+
+/**
+ * This is the styling.
+ */
 
 const styles = StyleSheet.create({
   container: {

@@ -1,3 +1,6 @@
+/**
+ * Imports React and React Native components, as well as custom types and interfaces.
+ */
 import React from "react";
 import { View, Text, Button, TextInput, TouchableOpacity } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -10,10 +13,23 @@ import { FontContext } from "../Context/fontContext";
 import { useAuth } from "../Context/AuthContext";
 import { StyleSheet } from "react-native";
 
+/**
+ * Adds the screen to navigation stack.
+ */
 type AddScreenProps = NativeStackScreenProps<RootStackParamList, "Add">;
 
+
+/**
+ * Makes the API readable.
+ */
 const API_URL = "http://192.168.1.244:5143/api/bulletins/member";
 
+
+/**
+ * A functioanl component.  Makes state management and context available to all its child components. 
+ * @param param0 Takes navigation props.
+ * @returns The UI for the screen.
+ */
 export default function AddScreen({ navigation }: AddScreenProps) {
   const context = useContext(ItemContext);
   const { token } = useAuth();
@@ -30,6 +46,11 @@ export default function AddScreen({ navigation }: AddScreenProps) {
   const [category, setCategory] = useState<number | null>(null);
   const [content, setContent] = useState("");
   const fontContext = useContext(FontContext);
+
+  /**
+   * This function handles form submission, with validation for form fields and token and navigation after validation.
+   * @returns No specific return value here
+   */
 
   const handleSubmit = async () => {
     if (!token) {
@@ -86,10 +107,18 @@ export default function AddScreen({ navigation }: AddScreenProps) {
     }
   };
 
+
+  /**
+   * This function sets the cateogry on button press in the UI.
+   * @param category 
+   */
   const handleTypeSelect = (category: number) => {
     setCategory(category);
   };
 
+  /**
+   * This is the user interface, containing text input fields and pressable areas.
+   */
   return (
     <View style={styles.container}>
       <View style={styles.headerRow}>
@@ -232,6 +261,10 @@ export default function AddScreen({ navigation }: AddScreenProps) {
   );
 }
 
+
+/**
+ * This is the styling for the screen's UI.
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

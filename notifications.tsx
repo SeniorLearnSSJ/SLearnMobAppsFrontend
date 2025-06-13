@@ -1,12 +1,26 @@
 import React from "react";
 import { View, Pressable, Text } from "react-native";
 
+
+/**
+ * Defines the shape of the notfications switch.
+ * Value: current state of the switch
+ * onValueChange:  Triggers switch when called
+ * fontSize:  Font size for text inside switch
+ */
+
 type NotificationsSwitchProps = {
   value: boolean;
   onValueChange: (newValue: boolean) => void;
   fontSize?: number;
 };
 
+
+/**
+ * Defines the component
+ * @param param0 Takes a prop of type Notifications Switch.
+ * @returns 
+ */
 const NotificationsSwitch: React.FC<NotificationsSwitchProps> = ({
   value,
   onValueChange,
@@ -16,6 +30,9 @@ const NotificationsSwitch: React.FC<NotificationsSwitchProps> = ({
     onValueChange(!value);
   };
 
+  /**
+   * Returns UI.
+   */
   return (
     <Pressable onPress={toggleSwitch}>
       <View

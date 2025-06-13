@@ -1,3 +1,8 @@
+
+/**
+ * These import statements import components from other files, as well as third party libraries like Async Storage.  Some custom types and helper functions are also imported, along with hooks.
+ */
+
 import * as React from "react";
 import { ItemContextType, IItem, IOfficialBulletin } from "../types";
 import { DoublyLinkedList } from "../helper";
@@ -5,7 +10,17 @@ import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
+/**
+ * This function creates a context object of type ItemContextType.  It has a default initial value of null.
+ */
+
 export const ItemContext = React.createContext<ItemContextType | null>(null);
+
+/**This object provides state management to all child components wrapped within the provider.
+ * 
+ * @param param0 The parameter is an object containing children of type ReactNode.
+ * @returns It returns a React element with child components wrapped in the provider.
+ */
 
 const Provider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [bulletins, setBulletins] = React.useState<IItem[]>([
@@ -58,6 +73,10 @@ saveFontSize();
     new DoublyLinkedList()
   );
 
+  /**
+   * This function loads and fetches Member bulletins.  It first checks if there are any bulletins in local storage, then fetches bulletins from the backend.
+   * It also sets loading state while fetching, which can help with user interface elements that indicate if data is being fetched.
+   */
 
 
   React.useEffect(() => {
@@ -104,7 +123,9 @@ saveFontSize();
       fetchMemberBulletins();
     }, []); */
   
-
+/**
+ * This function is similar to the one above, except that it fetches from a different API (official, not member)
+ */
 
     React.useEffect(() => {
   
@@ -131,7 +152,9 @@ saveFontSize();
 
 
 
-
+/**
+ * This is an effect that maps the bulletins, creating an array for each iterated item.
+ */
   React.useEffect(() => {
 const mapped = officialBulletins.map(b=>({
   id: b.id,
@@ -141,11 +164,24 @@ const mapped = officialBulletins.map(b=>({
 }))
 
 
+/**
+ * This is a variable declaration that uses the build from array helper function to create a doubly linked list from the mapped bulletins above.
+ */
 
     const newList = new DoublyLinkedList();
     newList.buildFromArray(mapped);
     setOfficialBulletinList(newList);
   }, [officialBulletins]);
+
+
+
+
+
+/**This is a function that takes a bulletin as a parameter.  Id checking is performed, which ensures that if a bulletin already exists, it is preserved in the array.
+ * 
+ * @param newBulletin 
+ */
+
 
   const saveBulletins = (newBulletin: IItem) => {
     setBulletins((prevBulletins) => {
@@ -161,10 +197,24 @@ const mapped = officialBulletins.map(b=>({
     });
   };
 
+  /**
+   * This is a function that takes a string Id as a parameter.  It filters the list of bulletins to return only items that do not have the matching Id (the ID to be deleted)
+   * @param idToDelete 
+   */
+
   const deleteBulletin = (idToDelete: string) => {
     setBulletins((prev) => prev.filter((item) => item.id !== idToDelete));
   };
 
+
+
+
+
+
+  /**This function takes an official bulletin as a parameter. It otherwise performs an identcial function to the saveBulletins function above.
+   * 
+   * @param newBulletin 
+   */
   const saveOfficialBulletins = (newBulletin: IOfficialBulletin) => {
     setOfficialBulletins((prevBulletins) => {
       const exists = prevBulletins.some((b) => b.id === newBulletin.id);
@@ -179,11 +229,20 @@ const mapped = officialBulletins.map(b=>({
     });
   };
 
+
+  /**This function takes an id string parameter indicating the id of the official bulletin.  It is otherwise identical to the delete function above.
+   * 
+   * @param idToDelete 
+   */
   const deleteOfficialBulletins = (idToDelete: string) => {
     setOfficialBulletins((prev) =>
       prev.filter((item) => item.id !== idToDelete)
     );
   };
+
+  /**This function saves the bulletins to local storage in JSON format. This effect runs on each change to bulletins.
+   * 
+   */
 
     React.useEffect(() => {
     async function saveBulletinsToStorage() {
@@ -198,7 +257,9 @@ const mapped = officialBulletins.map(b=>({
 
 
 
-
+/**
+ * This function fetches from the member bulletins API.  It provides live updates of the bulletins whenever they are changed on the backend or updated elswhere via the frontend.
+ */
 const refreshBulletins = async () => {
   setLoadingMember(true);
   try {
@@ -214,7 +275,9 @@ const refreshBulletins = async () => {
 
 
 
-
+/**This is a return statement wrapping all child components of ItemContextProvider and making available all the listed variables and functions of the provider.
+ * 
+ */
 
   return (
     <ItemContext.Provider

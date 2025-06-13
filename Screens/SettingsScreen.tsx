@@ -1,3 +1,7 @@
+/**
+ * This imports React and React Native components, along with nav props, context, custom types and a custom hook.
+ */
+
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -25,6 +29,10 @@ import { FontContext } from "../Context/fontContext";
 import { enableFreeze, enableScreens } from "react-native-screens";
 import { StyleSheet } from "react-native";
 
+/**
+ * Adds screen to navigation stack.
+ */
+
 type SettingsScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "Settings"
@@ -37,7 +45,16 @@ type SettingsScreenProps = NativeStackScreenProps<
   }
  */
 
+  /**
+   * Makes URL readable.
+   */
 const Settings_API_URL = "http://192.168.1.244:5143/api/profile/settings";
+
+/**
+ * Defines the screen component.
+ * @param param0 Nav props
+ * @returns UI
+ */
 
 export default function SettingsScreen({ navigation }: SettingsScreenProps) {
   const { logout } = useAuth();
@@ -74,6 +91,11 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
     setFontSize(newFontSize);
   }, [toggleValue]); */
 
+  /**
+   * Retrieves settings from backend, updates state with data
+   * @returns JSON data
+   */
+
   const getSettings = async () => {
     try {
       const response = await fetch(Settings_API_URL, {
@@ -91,6 +113,8 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
     }
   };
 
+
+
   useEffect(() => {
     setLoading(true);
     getSettings()
@@ -105,6 +129,12 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
       .finally(() => setLoading(false));
   }, []);
 
+  /**
+   * This function takes the data from the backend and updates where necessary.
+   * @param fontSize T
+   * @param darkMode 
+   * @param enableNotifications 
+   */
   const updateItem = async (
     fontSize: number,
     darkMode: boolean,
@@ -131,14 +161,25 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
     }
   };
 
+  /**
+   * This function updates the font size with the size input.  It is a local update to state.
+   * @param size 
+   */
   const handleSubmitFont = (size: number) => {
     setFontSize(size);
   };
+
+  /**
+   * This function handles the form submission, updating the backend where necessary.
+   */
 
   const handleSubmit = () => {
     updateItem(fontSize, isDarkMode, notifications);
   };
 
+  /**
+   * UI
+   */
   return (
     <ScrollView>
       <SafeAreaView>
@@ -281,6 +322,10 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
     </ScrollView>
   );
 }
+
+/**
+ * Styling
+ */
 
 const styles = StyleSheet.create({
   container: {

@@ -1,3 +1,7 @@
+/**
+ * Defines ListNode, DoublyLinkedList classes.
+ */
+
 export class ListNode {
   id: string;
   title: string;
@@ -21,7 +25,13 @@ export class DoublyLinkedList {
   length: number = 0;
 
 
-
+/**
+ * Defines function to insert sets of data at end of DoublyLinkedList.
+ * @param id 
+ * @param title 
+ * @param datetime 
+ * @param content 
+ */
    insertAtEnd(id: string, title: string, datetime: Date, content: string) {
     const newNode = new ListNode(id, title, datetime, content);
 
@@ -37,12 +47,22 @@ export class DoublyLinkedList {
     this.length++;
   }
 
+  /**
+   * Defines function to build an array.
+   * @param arr 
+   */
    buildFromArray(arr: { id: string; title: string; datetime: Date, content: string }[]) {
     arr.forEach(item =>{
       const dateObj = item.datetime instanceof Date? item.datetime: new Date (item.datetime)
       this.insertAtEnd(item.id, item.title, item.datetime, item.content);
     });
   }
+
+  /**
+   * Defines function to get a node by its Id.
+   * @param id 
+   * @returns Null
+   */
 
   getNodeById(id: string): ListNode | null {
   let current = this.head;

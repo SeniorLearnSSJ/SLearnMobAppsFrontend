@@ -1,3 +1,7 @@
+/**
+ * This imports React/React Native componnets, along with nav props, context and functions.
+ */
+
 import React from "react";
 import {
   View,
@@ -16,12 +20,26 @@ import { useAuth } from "../Context/AuthContext";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 
+/**
+ * This adds the screen to the navigation stack.
+ */
+
 type OfficialBulletinsDetailsScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "OfficialBulletinsDetails"
 >;
 
+/**
+ * This makes the API readable.
+ */
+
 const API_URL = "http://192.168.1.244:5143/api/bulletins/official";
+
+/**
+ * This functional commponent renders the screen UI.
+ * @param param0 Nav props, route params
+ * @returns UI
+ */
 
 export default function OfficialBulletinsDetailsScreen({
   navigation,
@@ -43,6 +61,11 @@ export default function OfficialBulletinsDetailsScreen({
   const { item } = route.params as { item: IOfficialBulletin };
   const currentNode = officialBulletinList.getNodeById(item.id);
 
+
+  /**
+   * This deletes the item corresponding to the parameter.
+   * @param idToDelete 
+   */
   const deleteItem = async (idToDelete: string) => {
     try {
       const response = await fetch(`${API_URL}/${idToDelete}`, {
@@ -66,6 +89,11 @@ export default function OfficialBulletinsDetailsScreen({
     navigation.navigate("OfficialBulletinsSummary");
   };
 
+  /**
+   * This function takes a node as param and navigates to the item matching the selected id, replacing the current screen with the screen correspoding to the id.  The selected node's data is displayed.
+   * @param node 
+   */
+
   const handleNavigate = (node: ListNode) => {
     navigation.replace("OfficialBulletinsDetails", {
       item: {
@@ -77,6 +105,9 @@ export default function OfficialBulletinsDetailsScreen({
     });
   };
 
+  /**
+   * This defines the state of the node. CanPrev states indicate that there is a previous node.  CanNext indicates that there is a next node.
+   */
   const canPrev = !!currentNode?.prev;
   const canNext = !!currentNode?.next;
 
@@ -88,6 +119,9 @@ export default function OfficialBulletinsDetailsScreen({
     );
   }
 
+  /**
+   * This is this UI.  If a node is not selected or there is no next/previous node, the next/prev buttons are greyed out.  Otherwise, nodes are used to navigate back and forth through the linked list.
+   */
   return (
     <View>
       <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
@@ -154,6 +188,8 @@ export default function OfficialBulletinsDetailsScreen({
  */
         )}
       </View>
+
+
 
       <View style={styles.bottomButtons}>
         <TouchableOpacity

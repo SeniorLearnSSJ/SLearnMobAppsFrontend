@@ -123,11 +123,22 @@ export async function ApiLogin(
 import axios from "axios";
 
 // Create Axios instance
+
+/**
+ * Creating an instance of axios
+ */
 export const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
 });
+
+/**
+ * Defines ApiLogin function.  Sends login request to backend via sign-in endpoint.
+ * @param username 
+ * @param password 
+ * @returns An object with succcess (Boolean), token (string), role (string), message (string)
+ */
 
 export async function ApiLogin(
   username: string,

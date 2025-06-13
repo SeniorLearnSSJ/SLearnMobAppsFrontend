@@ -1,3 +1,7 @@
+/**
+ * Imports React and React Native components, along with navigation props, custom types and interfaces, and the logLogin function.
+ */
+
 import React, { useState } from "react";
 import {
   View,
@@ -18,9 +22,23 @@ import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 import { logLogin } from "../logLogins";
 
+/**
+ * This adds the screen to the navigation stack.
+ */
+
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList, "Login">;
 
+/**
+ * This makes the URL easily handled and readable.
+ */
+
 const API_URL = "http://192.168.1.244:5143/api/auth/sign-in";
+
+/**
+ * This functional component takes navigation props and returns no specific value.  It manages state and context.
+ * @param param0 Nav props
+ * @returns Nothing specific
+ */
 
 export default function LoginScreen({ navigation }: LoginScreenProps) {
   const { login } = useAuth();
@@ -38,6 +56,9 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   const [password, setPassword] = useState("");
   const { token, setToken } = authContext;
 
+  /**
+   * This function handles form submission. It also logs the username to a text file on successful login.
+   */
   const handleSubmit = async () => {
     if (username.trim() && password.trim()) {
       try {
@@ -86,6 +107,10 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
     console.error('Error creating item:', error);
   } */
 
+
+    /**
+     * This is the user interface.
+     */
   return (
     <View>
       <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
@@ -181,6 +206,10 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
     </View>
   );
 }
+
+/**
+ * This is the styling for the UI.
+ */
 
 const styles = StyleSheet.create({
   tabs: {

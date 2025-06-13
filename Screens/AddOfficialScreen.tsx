@@ -1,3 +1,7 @@
+/**
+ * These import statements import in-built React and React Native components such as View/Text.  It also imports custom types and interfaces and context providers.
+ */
+
 import React from "react";
 import { View, Text, Button, TextInput, TouchableOpacity } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -10,12 +14,28 @@ import { FontContext } from "../Context/fontContext";
 import { useAuth } from "../Context/AuthContext";
 import { StyleSheet } from "react-native";
 
+
+/**
+ * This constant sets the backend API to a more readable format.
+ */
 const API_URL = "http://192.168.1.244:5143/api/bulletins/official";
+
+
+/**
+ * This code adds the screen to the navigation stack.
+ */
 
 type AddOfficialScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "AddOfficial"
 >;
+
+/**
+ * This is a functional component that takes navigation props as a parameter.
+ * It provides state management and context to every component within itself.  It returns a UI element.
+ * @param param0 Navigation properties 
+ * @returns A react element rendering the AddOfficial screen UI.
+ */
 
 export default function AddOfficialScreen({
   navigation,
@@ -35,6 +55,10 @@ export default function AddOfficialScreen({
   >([]);
   const [loading, setLoading] = useState(true); */
 
+
+  /**
+   * This is a function that validates data submitted via a form.  It validates such things as field entries and tokens and navigates away to another screen on form submission.
+   */
   const handleSubmit = async () => {
     if (!title.trim() || !content.trim()) {
       alert("Please fill all fields");
@@ -73,6 +97,10 @@ export default function AddOfficialScreen({
       console.error(error);
     }
   };
+
+  /**
+   * This return is the UI element of the add official bulletin screen.  It contains both text input elements and pressable areas.
+   */
 
   return (
     <View style={styles.container}>
@@ -197,6 +225,10 @@ export default function AddOfficialScreen({
     </View>
   );
 }
+
+/**
+ * This provides the styling for the above screen component.
+ */
 
 const styles = StyleSheet.create({
   container: {

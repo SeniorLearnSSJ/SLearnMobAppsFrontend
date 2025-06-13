@@ -2,11 +2,24 @@ import React from "react";
 import { View, Pressable, Text } from "react-native";
 import { StyleSheet } from "react-native";
 
+/**
+ * Defines shape of brightness switch props.
+ * Value:  A boolean holding the current value of the prop.
+ * onValueChange:  A switch function to toggle the value of the prop.
+ * fontSize:  Optionally sets value of font in switch.
+ */
+
 type BrightnessSwitchProps = {
   value: boolean;
   onValueChange: (newValue: boolean) => void;
   fontSize?: number;
 };
+
+/**
+ * Defines the switch component
+ * @param param0   a paramter of type brightness switch prop
+ * @returns A pressable switch
+ */
 
 const BrightnessSwitch: React.FC<BrightnessSwitchProps> = ({
   value,

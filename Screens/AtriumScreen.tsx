@@ -1,3 +1,6 @@
+/**
+ * This imports React and React Native components, as well as navigation properties and context.
+ */
 import React from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -6,8 +9,17 @@ import { FontContext } from "../Context/fontContext";
 import { useContext } from "react";
 import { StyleSheet } from "react-native";
 
+/**
+ * This adds the screen to the navigation stack.
+ */
+
 type AtriumScreenProps = NativeStackScreenProps<RootStackParamList, "Atrium">;
 
+/**
+ * This functional component takes navigation props as a parameter.  It returns the UI for the screen.
+ * @param param0 Navigation properties
+ * @returns UI rendering
+ */
 export default function AtriumScreen({ navigation }: AtriumScreenProps) {
   const fontContext = useContext(FontContext);
   return (
@@ -63,6 +75,9 @@ export default function AtriumScreen({ navigation }: AtriumScreenProps) {
   );
 }
 
+/**
+ * This contains the styling for the UI.
+ */
 const styles = StyleSheet.create({
   Button: {
     

@@ -1,3 +1,7 @@
+
+/**
+ * Define class trie node
+ */
 export class TrieNode {
   children: { [key: string]: TrieNode };
   isWord: boolean;
@@ -8,6 +12,9 @@ export class TrieNode {
   }
 }
 
+/**
+ * Defines class Trie
+ */
 export class Trie {
   private root: TrieNode;
 
@@ -26,7 +33,16 @@ export class Trie {
     node.isWord = true;
   }
 
-
+/**
+ * Defines a helper function
+ * @param node Current trie node 
+ * @param list Array to accumulate list of nodes
+ * @param curr The word as it has been built so far
+ * If current node marks end of word, this helper moves the word to the list
+ * It recursively goes trough each child node and appends that child's character to curr
+ * This allows the function to collect all words that start with the prefix defined by curr
+ * This works becuase the Trie itself marks the end of a word with an isWord flag for its last character.
+ */
 private suggestHelper
 (node: TrieNode, list: string[],
 curr: string): void{

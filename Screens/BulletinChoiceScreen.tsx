@@ -1,3 +1,8 @@
+
+/**
+ * This imports React and React Native components, as well as navigation props, context and a useAuth custom hook that enables access to the authorisation context.
+ */
+
 import React from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -7,11 +12,20 @@ import { useContext } from "react";
 import { StyleSheet } from "react-native";
 import { useAuth } from "../Context/AuthContext";
 
+/**
+ * Adds the screen to the navigation stack.
+ */
 type BulletinChoiceScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "BulletinChoice"
 >;
 
+
+/**
+ * This functional component takes navigation props as a parameter and returns the UI.
+ * @param param0 Navigation props
+ * @returns User interface
+ */
 export default function BulletinChoiceScreen({
   navigation,
 }: BulletinChoiceScreenProps) {
@@ -117,6 +131,9 @@ export default function BulletinChoiceScreen({
   );
 }
 
+/**
+ * Styling for above UI
+ */
 const styles = StyleSheet.create({
   Button: {
     paddingVertical: 10,

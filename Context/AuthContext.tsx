@@ -266,19 +266,24 @@ console.log("Extracted Role:", role);
       .catch((err) => console.error("Failed to clear auth state:", err));
   };
 
+/**
+ * This function loads authentication data stored in the local storage, which preserves authorisation details and removes need for logging in again, unless token has expired.
+ 
+ */
 
-useEffect(() => {
+
+/* useEffect(() => {
   const loadToken = async () => {
-    const token = await AsyncStorage.getItem('authToken');
+    const token = await AsyncStorage.getItem('auth_data');
     if (token) {
       // optionally decode and validate the token (expiry etc.)
      await setAuthState( token, role, username);
     }
   };
-  loadToken();
+  loadToken(); 
 }, []);
 
-
+ */
 
   /**
    * This gives whatever is wrapped in the auth context provider access to the values passed in here.

@@ -1,4 +1,9 @@
+/**
+ * Hooks are imported, along with React or React Native components, interfaces, nav props, custom types, functions.
+ */
 import React, { useState, useEffect } from "react";
+
+
 import {
   FlatList,
   Text,
@@ -17,12 +22,27 @@ import { useAuth } from "../Context/AuthContext";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 
+
+
+/**
+ * Adds the screen to navigation.
+ */
 type Props = NativeStackScreenProps<
   RootStackParamList,
   "OfficialBulletinsSummary"
 >;
 
+/**
+ * Makes URL readable.
+ */
+
 const API_URL = "http://192.168.1.244:5143/api/bulletins/official";
+
+/**
+ * Screen component
+ * @param param0 Takes nav props
+ * @returns UI
+ */
 
 const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
   const context = useContext(ItemContext);
@@ -35,6 +55,10 @@ console.log("Role:", role);
   >([]);
   const [loading, setLoading] = useState<Boolean>(true);
   const fontContext = useContext(FontContext);
+
+  /**
+   * This hook fetches bulletins from the back end and updates the state of official bulletins via setOfficialBulletins. It runs once only after component mounts.
+   */
 
   useEffect(() => {
     const getItems = async () => {
@@ -92,6 +116,9 @@ console.log("Role:", role);
     earlier: [],
   };
 
+  /**
+   * This sorts bulletins into 2 groups, today's bulletins and earlier bulletins.
+   */
   const bulletinsToSort: IOfficialBulletin[] = officialBulletins;
 
   const isToday = (date: Date) => {
@@ -102,6 +129,13 @@ console.log("Role:", role);
       date.getFullYear() === today.getFullYear()
     );
   };
+
+  /**
+   * This function takes two parameters, an accumulator named acc and a bulletin object currentObj
+   * @param acc The accumulator, which will group the bulletins into 2 groups of arrays, today and earlier.
+   * @param currentObj The bulletin currently being grouped.
+   * @returns The updated accumulator with bulletins added etiher to today or earlir group.
+   */
 
   const groupBulletinsBehaviour = (
     acc: GroupedOfficialBulletins,
@@ -115,11 +149,18 @@ console.log("Role:", role);
     return acc;
   };
 
+
+/**
+ * Bulletins to sort is an array of bulletins, each having a date createdAt.  Reduce method iterates through each bulletin, and sorts them via groupBulletinsBehaviour function.
+ */
   const bulletinsGroupedByDate = bulletinsToSort.reduce(
     groupBulletinsBehaviour,
     intitalGrouping
   );
 
+  /**
+   * These two groups of arrays are grouped by type (today/earlier) and sorted reveres chronologically.
+   */
   const todayBulletins = bulletinsGroupedByDate.today.sort(
     (a: IOfficialBulletin, b: IOfficialBulletin) =>
       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -129,6 +170,12 @@ console.log("Role:", role);
     (a: IOfficialBulletin, b: IOfficialBulletin) =>
       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
+
+  /**
+   * This function renders the items and allows for pressability and navigation to the item's details.
+   * @param param0 Item of type official bullletin.
+   * @returns A touchable area.
+   */
 
   const renderItem = ({ item }: { item: IOfficialBulletin }) => (
     <TouchableOpacity
@@ -142,6 +189,10 @@ console.log("Role:", role);
       </Text>
     </TouchableOpacity>
   );
+
+  /**
+   * This returns the UI.
+   */
   return (
     <View style={{ flex: 1 }}>
 
@@ -248,6 +299,10 @@ keyExtractor = {(item) => item.id}/>
 
 
 export default OfficialBulletinsSummary; */
+
+/**
+ * This is styling.
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

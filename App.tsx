@@ -5,6 +5,12 @@ import Provider from "./Context/context";
 import { AuthProvider } from "./Context/AuthContext";
 import { FontSizeProvider } from "./Context/fontContext";
 
+
+/**
+ * Navigaation wrapped in providers to share context
+ * @returns Root component 
+ */
+
 export default function App() {
   return (
     <Provider>

@@ -1,3 +1,7 @@
+/**
+ * This imports React and React Native components, along with nav props, context, custom types and a custom hook.
+ */
+
 import React from "react";
 import { View, Text, Button, TextInput, TouchableOpacity } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -11,9 +15,22 @@ import { StyleSheet } from "react-native";
 import { useAuth } from "../Context/AuthContext";
 import { FontContext } from "../Context/fontContext";
 
+/**
+ * This adds the screen to the navigation stack.
+ */
+
 type EditScreenProps = NativeStackScreenProps<RootStackParamList, "Edit">;
 
+/**
+ * This assigns a readable constant to the API.
+ */
 const API_BASE = "http://192.168.1.244:5143/api/bulletins/member";
+
+/**
+ * This functioanl component takes nav props and route params.  It returns the UI.
+ * @param param0 Nav props/route params.
+ * @returns User interface
+ */
 
 export default function EditScreen({ navigation, route }: EditScreenProps) {
   const context = useContext(ItemContext);
@@ -38,6 +55,10 @@ export default function EditScreen({ navigation, route }: EditScreenProps) {
   });
   const [content, setContent] = useState(item.content ?? "");
 
+  /**
+   * This function handles form submission.
+   * @returns It has no return value.
+   */
   const handleSubmit = async () => {
     if (
       !title.trim() ||
@@ -57,6 +78,9 @@ export default function EditScreen({ navigation, route }: EditScreenProps) {
       content: content.trim(),
     };
 
+    /**
+     * At this point, the handleSubmit function retrieves the data at the API and updates it using the saveBulletins function.
+     */
     try {
       const response = await fetch(`${API_BASE}/${updatedBulletin.id}`, {
         method: "PUT",
@@ -82,6 +106,11 @@ export default function EditScreen({ navigation, route }: EditScreenProps) {
       alert("Failed to update bulletin");
     }
   };
+  
+  /**
+   * This function deletes the item from the backend the corresponds to the parameter.
+   * @param idToDelete 
+   */
 
   const deleteItem = async (idToDelete: string) => {
     try {
@@ -107,10 +136,18 @@ export default function EditScreen({ navigation, route }: EditScreenProps) {
     //navigation.navigate("MemberBulletinSummary");
   };
 
+  /**
+   * This function updates the category to the category selected by the pressable element.
+   * @param category 
+   */
+
   const handleTypeSelect = (category: number) => {
     setCategory(category);
   };
 
+  /**
+   * This is a user interface element.
+   */
   return (
     <View>
       <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
@@ -261,6 +298,10 @@ export default function EditScreen({ navigation, route }: EditScreenProps) {
     </View>
   );
 }
+
+/**
+ * This is the styling for the UI above.
+ */
 
 const styles = StyleSheet.create({
   tabs: {

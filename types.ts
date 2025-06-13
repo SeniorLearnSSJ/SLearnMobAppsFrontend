@@ -1,5 +1,13 @@
 import { DoublyLinkedList } from './helper'; 
 
+
+
+
+
+/**
+ * This list contains the definitions of the route params passed to each page.
+ */
+
 export type RootStackParamList = {
   Atrium: undefined;
   BulletinChoice: undefined;
@@ -23,6 +31,9 @@ export type RootStackParamList = {
     
   };
 
+  /**
+   * This defines the shape of the IItem interface.
+   */
 export interface IItem {
   id: string;
   title: string;
@@ -35,7 +46,9 @@ export interface IItem {
  
 }
 
-
+/**
+ * This defines the shape of the ItemContextType, which contains constants and functions which were shared throughout the app.
+ */
 
 export type ItemContextType = {
   bulletins: IItem[];
@@ -55,6 +68,10 @@ refreshBulletins: () => Promise <void>;
   
 }
 
+
+/**
+ * This defines the shape of the official bulletin interface.
+ */
 export interface IOfficialBulletin {
   id: string;
   title: string;
@@ -65,6 +82,9 @@ export interface IOfficialBulletin {
   content: string
 }
 
+/**
+ * This defines the shape of the data on the registration page.
+ */
 export interface RegisterData {
  username: String;
   password: String;
@@ -74,6 +94,9 @@ export interface RegisterData {
 
 }
 
+/**
+ * This defines the shape data of the login credentials.
+ */
 type LoginResult = {
   success: boolean;
   role?: "Administrator" | "Member" | null;
@@ -89,6 +112,9 @@ type LoginResult = {
   setRole: (role: "admin" | "user" | null) => void;
 } */
 
+  /**
+   * This defines the shape of the member bulletin category enum.
+   */
   export enum MemberBulletinCategory {
   Interest = 0,
   Event = 1,
