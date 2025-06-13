@@ -70,6 +70,23 @@ export default function BulletinChoiceScreen({
         </Text>
       </TouchableOpacity>
 
+
+
+     <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      >
+        <Text
+          style={{ fontSize: fontContext?.fontSize || 16, textAlign: "center", color: "white" }}
+        >
+          Back
+        </Text>
+      </TouchableOpacity>
+
+
+
+
+
       {/* <Text>Bulletin Choice Screen</Text> */}
 
       {/* 
@@ -119,4 +136,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
+  backButton:{
+    backgroundColor: "black",
+    color: "white",
+    borderRadius: 15
+  }
 });

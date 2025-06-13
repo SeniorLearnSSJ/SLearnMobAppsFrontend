@@ -20,7 +20,7 @@ import { StyleSheet } from "react-native";
 
 type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, "Profile">;
 
-const API_URL = "http://172.19.159.72:5143/api/profile";
+const API_URL = "http://192.168.1.244:5143/api/profile";
 
 export default function ProfileScreen({ navigation }: ProfileScreenProps) {
   const { login } = useAuth();
@@ -175,6 +175,7 @@ setUsername (data.username);
 
       const data = await response.json();
       console.log("Updated item:", data);
+      alert("Submit successful!");
     } catch (error) {
       console.error("Error updating item:", error);
     }

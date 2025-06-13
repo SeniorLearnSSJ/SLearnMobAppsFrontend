@@ -37,7 +37,7 @@ type SettingsScreenProps = NativeStackScreenProps<
   }
  */
 
-const Settings_API_URL = "http://172.19.159.72:5143/api/profile/settings";
+const Settings_API_URL = "http://192.168.1.244:5143/api/profile/settings";
 
 export default function SettingsScreen({ navigation }: SettingsScreenProps) {
   const { logout } = useAuth();
@@ -257,7 +257,7 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.buttonRight} onPress={logout}>
+  {/*         <TouchableOpacity style={styles.buttonRight} onPress={logout}>
             <Text
               style={{
                 color: "white",
@@ -268,6 +268,10 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
               Logout
             </Text>
           </TouchableOpacity>
+
+ */}
+
+
         </View>
 
         {/*       <View>

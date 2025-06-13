@@ -12,7 +12,7 @@ import { StyleSheet } from "react-native";
 
 type AddScreenProps = NativeStackScreenProps<RootStackParamList, "Add">;
 
-const API_URL = "http://172.19.159.72:5143/api/bulletins/member";
+const API_URL = "http://192.168.1.244:5143/api/bulletins/member";
 
 export default function AddScreen({ navigation }: AddScreenProps) {
   const context = useContext(ItemContext);

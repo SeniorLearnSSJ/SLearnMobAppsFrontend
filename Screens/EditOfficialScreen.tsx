@@ -15,7 +15,7 @@ type EditOfficialScreenProps = NativeStackScreenProps<
   "EditOfficial"
 >;
 
-const API_BASE = "http://172.19.159.72:5143/api/bulletins/official";
+const API_BASE = "http://192.168.1.244:5143/api/bulletins/official";
 
 export default function EditOfficialScreen({
   navigation,

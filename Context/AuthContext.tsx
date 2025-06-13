@@ -9,6 +9,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ApiLogin } from "../api";
 //import * as jwt_decode from "jwt-decode";
 
+
+/**
+ * This function parses the token, of type string.
+ * 
+ * @param token (The JWT token string to be decoded)
+ * @returns It returns either the payload of the decoded token or null.
+ */
 function parseJwt(token: string) {
   try {
     return JSON.parse(atob(token.split(".")[1]));
@@ -18,6 +25,10 @@ function parseJwt(token: string) {
   }
 }
 
+
+/**
+ * This interface defines the shape of the authentication context object.  Authentication will require the fields and functions below.
+ */
 interface AuthContextType {
   token: string | null;
   setToken: (token: string | null) => void;
@@ -29,12 +40,23 @@ interface AuthContextType {
   setUsername: (username: string | null) => void;
 }
 
+/**
+ * This variable holds the value of the auth data string.
+ */
 const STORAGE_KEY = "auth_data";
 
+/**
+ * This module creates a context of type AuthContextType.  It is a React context container allowing for shared data and functions between the app components.
+ */
 export const AuthContext = createContext<AuthContextType | undefined>(
   undefined
 );
 
+/**
+ * This provider encapsulates state management, providing token, role and username state management to the context.
+ * @param param0 It contains ReactNode childrent to be rendered inside this component by the UI that the component wraps around.  The object param0 has a property named children.
+ * @returns It returns a React element that wraps children with the authentication context.Specifically, it produces JSX with children wrapped by the context provider itself, allowing context info to be transferred to the wrapped code.
+ */
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [role, setRole] = useState<"Administrator" | "Member" | null>(null);
@@ -42,6 +64,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   //const [user, setUser] = useState<User | null>(null);
 
+  /**
+   * The useEffect hook for getAuthstate runs after component first mounts.
+   * The useEFfect hook for setAuthState runs after username, token or role changes.
+   */
   useEffect(() => {
     getAuthState();
   }, []);
@@ -50,6 +76,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setAuthState(token, role, username);
   }, [username, token, role]);
 
+
+  /**
+   * This functional component retrieves data from async storage and sets the token as well as the role and username to the local data values.
+   */
   const getAuthState = async () => {
     try {
       console.log("Fetching stored authentication data...");
@@ -78,6 +108,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+
+  /**This functional component saves the token, role and username to local storage.
+   * 
+   * @param token 
+   * @param role 
+   * @param username 
+   */
   const setAuthState = async (
     token: string | null,
     role: "Administrator" | "Member" | null,
@@ -94,6 +131,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+
+  /**This function verifies the username and password against the backend response.
+   * If successful, it stores the JWT token, decodes it to extract user role and udpates authentication state (token, role, username)
+   * @param username 
+   * @param password 
+   * @returns Boolean indicating true if successful, false if unsuccessful login.
+   */
   const login = async (username: string, password: string) => {
     console.log(`Attempting login with username: ${username}`);
 
@@ -208,6 +252,10 @@ console.log("Extracted Role:", role);
     }
   };
 
+  /**
+   * This function wipes the authentication state on logout.
+   */
+
   const logout = () => {
     console.log("Logging out user...");
     setUsername(null), setToken(null);
@@ -218,6 +266,23 @@ console.log("Extracted Role:", role);
       .catch((err) => console.error("Failed to clear auth state:", err));
   };
 
+
+useEffect(() => {
+  const loadToken = async () => {
+    const token = await AsyncStorage.getItem('authToken');
+    if (token) {
+      // optionally decode and validate the token (expiry etc.)
+     await setAuthState( token, role, username);
+    }
+  };
+  loadToken();
+}, []);
+
+
+
+  /**
+   * This gives whatever is wrapped in the auth context provider access to the values passed in here.
+   */
   return (
     <AuthContext.Provider
       value={{
@@ -236,6 +301,10 @@ console.log("Extracted Role:", role);
   );
 };
 
+/**
+ * This function allows the creation of context from the auth context parent component. 
+ * @returns It retruns a context object, or nothing/error message if the component calling it is not wrapped in the provider.
+ */
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) throw new Error("useAuth must be used within AuthProvider");

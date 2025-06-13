@@ -13,7 +13,7 @@ import { FontContext } from "../Context/fontContext";
 
 type EditScreenProps = NativeStackScreenProps<RootStackParamList, "Edit">;
 
-const API_BASE = "http://172.19.159.72:5143/api/bulletins/member";
+const API_BASE = "http://192.168.1.244:5143/api/bulletins/member";
 
 export default function EditScreen({ navigation, route }: EditScreenProps) {
   const context = useContext(ItemContext);

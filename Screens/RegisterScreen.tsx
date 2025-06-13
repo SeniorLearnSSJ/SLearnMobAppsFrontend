@@ -21,7 +21,7 @@ type RegisterScreenProps = NativeStackScreenProps<
   "Register"
 >;
 
-const API_BASE = "http://172.19.159.72:5143/api/auth";
+const API_BASE = "http://192.168.1.244:5143/api/auth";
 
 export default function RegisterScreen({ navigation }: RegisterScreenProps) {
   const auth = useContext(AuthContext);

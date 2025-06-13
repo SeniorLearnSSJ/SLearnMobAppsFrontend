@@ -16,10 +16,11 @@ import { useAuth } from "../Context/AuthContext";
 import { ItemContext } from "../Context/context";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
+import { logLogin } from "../logLogins";
 
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList, "Login">;
 
-const API_URL = "http://localhost:5143/api/auth/sign-in";
+const API_URL = "http://192.168.1.244:5143/api/auth/sign-in";
 
 export default function LoginScreen({ navigation }: LoginScreenProps) {
   const { login } = useAuth();
@@ -43,6 +44,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
         const success = await login(username, password);
 
         if (success) {
+          logLogin(username);
           window.alert("Logged in");
           navigation.navigate("BulletinChoice");
         } else {
@@ -136,6 +138,21 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
           </Text>
         </TouchableOpacity>
       </View>
+
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      >
+        <Text
+          style={{
+            fontSize: fontContext?.fontSize || 16,
+            textAlign: "center",
+            color: "white",
+          }}
+        >
+          Back
+        </Text>
+      </TouchableOpacity>
 
       {/*       <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
         <Text
