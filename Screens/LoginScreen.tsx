@@ -9,7 +9,7 @@ import {
   TextInput,
   Button,
   Alert,
-  TouchableOpacity,
+  TouchableOpacity, ScrollView
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
@@ -21,6 +21,7 @@ import { ItemContext } from "../Context/context";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 import { logLogin } from "../logLogins";
+
 
 /**
  * This adds the screen to the navigation stack.
@@ -112,6 +113,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
      * This is the user interface.
      */
   return (
+    <ScrollView>
     <View>
       <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
         Login Screen
@@ -204,6 +206,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
       />
  */}
     </View>
+    </ScrollView>
   );
 }
 

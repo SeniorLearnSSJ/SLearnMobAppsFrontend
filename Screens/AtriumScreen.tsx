@@ -2,7 +2,7 @@
  * This imports React and React Native components, as well as navigation properties and context.
  */
 import React from "react";
-import { View, Text, Button, TouchableOpacity } from "react-native";
+import { View, Text, Button, TouchableOpacity, ScrollView } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
 import { FontContext } from "../Context/fontContext";
@@ -23,6 +23,7 @@ type AtriumScreenProps = NativeStackScreenProps<RootStackParamList, "Atrium">;
 export default function AtriumScreen({ navigation }: AtriumScreenProps) {
   const fontContext = useContext(FontContext);
   return (
+    <ScrollView>
     <View>
       <Text style={{ fontSize: fontContext?.fontSize || 16 }}>Home Screen</Text>
 
@@ -72,6 +73,7 @@ export default function AtriumScreen({ navigation }: AtriumScreenProps) {
       </TouchableOpacity>
  */}
     </View>
+    </ScrollView>
   );
 }
 

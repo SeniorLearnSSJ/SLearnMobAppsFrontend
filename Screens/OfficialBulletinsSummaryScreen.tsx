@@ -3,7 +3,6 @@
  */
 import React, { useState, useEffect } from "react";
 
-
 import {
   FlatList,
   Text,
@@ -11,6 +10,7 @@ import {
   TouchableOpacity,
   Button,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { IOfficialBulletin, RootStackParamList } from "../types";
@@ -21,8 +21,6 @@ import { IItem, ItemContextType } from "../types";
 import { useAuth } from "../Context/AuthContext";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
-
-
 
 /**
  * Adds the screen to navigation.
@@ -48,13 +46,14 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
   const context = useContext(ItemContext);
   const { token, role } = useAuth();
   console.log("Token:", token);
-console.log("Role:", role);
+  console.log("Role:", role);
 
   const [officialBulletins, setOfficialBulletins] = useState<
     IOfficialBulletin[]
   >([]);
   const [loading, setLoading] = useState<Boolean>(true);
   const fontContext = useContext(FontContext);
+  const { username } = useAuth();
 
   /**
    * This hook fetches bulletins from the back end and updates the state of official bulletins via setOfficialBulletins. It runs once only after component mounts.
@@ -149,10 +148,9 @@ console.log("Role:", role);
     return acc;
   };
 
-
-/**
- * Bulletins to sort is an array of bulletins, each having a date createdAt.  Reduce method iterates through each bulletin, and sorts them via groupBulletinsBehaviour function.
- */
+  /**
+   * Bulletins to sort is an array of bulletins, each having a date createdAt.  Reduce method iterates through each bulletin, and sorts them via groupBulletinsBehaviour function.
+   */
   const bulletinsGroupedByDate = bulletinsToSort.reduce(
     groupBulletinsBehaviour,
     intitalGrouping
@@ -194,67 +192,85 @@ console.log("Role:", role);
    * This returns the UI.
    */
   return (
-    <View style={{ flex: 1 }}>
+    <ScrollView>
+      <View style={{ flex: 1 }}>
+        {username && (
+          <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+              <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+                ID: {username}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
-    <Text style={{ fontSize: fontContext?.fontSize || 16, color: "black" }}>
-      Current role: {role}
-    </Text>
+        <Text style={{ fontSize: fontContext?.fontSize || 16, color: "black" }}>
+          Current role: {role}
+        </Text>
 
+        <Text style={{ fontSize: fontContext?.fontSize || 16, color: "black" }}>
+          Today's bulletins
+        </Text>
+        <FlatList
+          data={todayBulletins}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          ListEmptyComponent={
+            <Text
+              style={{ fontSize: fontContext?.fontSize || 16, color: "black" }}
+            >
+              No bulletins from today
+            </Text>
+          }
+        />
 
+        <Text style={{ fontSize: fontContext?.fontSize || 16, color: "black" }}>
+          Earlier bulletins
+        </Text>
+        <FlatList
+          style={styles.list}
+          data={earlierBulletins}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          ListEmptyComponent={<Text>No bulletins</Text>}
+        />
 
-      <Text style={{ fontSize: fontContext?.fontSize || 16, color: "black" }}>
-        Today's bulletins
-      </Text>
-      <FlatList
-        data={todayBulletins}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        ListEmptyComponent={<Text style={{ fontSize: fontContext?.fontSize || 16, color: "black" }}>No bulletins from today</Text>}
-      />
-
-      <Text style={{ fontSize: fontContext?.fontSize || 16, color: "black" }}>
-        Earlier bulletins
-      </Text>
-      <FlatList
-        style={styles.list}
-        data={earlierBulletins}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        ListEmptyComponent={<Text>No bulletins</Text>}
-      />
-
-      <View style={styles.bottomButtons}>
-        <TouchableOpacity
-          style={[styles.buttonLeft, { marginTop: 30 }]}
-          onPress={() => navigation.navigate("BulletinChoice")}
-        >
-          <Text
-            style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
-          >
-            Back
-          </Text>
-        </TouchableOpacity>
-
-        {token && role === "Administrator" && (
+        <View style={styles.bottomButtons}>
           <TouchableOpacity
             style={[styles.buttonLeft, { marginTop: 30 }]}
-            onPress={() => navigation.navigate("AddOfficial")}
+            onPress={() => navigation.navigate("BulletinChoice")}
           >
             <Text
               style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
             >
-              Add
+              Back
             </Text>
           </TouchableOpacity>
 
-          /* 
+          {token && role === "Administrator" && (
+            <TouchableOpacity
+              style={[styles.buttonLeft, { marginTop: 30 }]}
+              onPress={() => navigation.navigate("AddOfficial")}
+            >
+              <Text
+                style={{
+                  fontSize: fontContext?.fontSize || 16,
+                  color: "white",
+                }}
+              >
+                Add
+              </Text>
+            </TouchableOpacity>
+
+            /* 
         <Button
           title="Add"
           onPress={() => navigation.navigate("AddOfficial")}
         /> */
-        )}
+          )}
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

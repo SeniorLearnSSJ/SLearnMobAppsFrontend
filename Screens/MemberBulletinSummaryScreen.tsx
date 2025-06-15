@@ -1,4 +1,3 @@
-
 /**
  * Imports React and React Native components, custom types, context, navigation props.
  */
@@ -16,7 +15,7 @@ import {
   TouchableOpacity,
   Button,
   ActivityIndicator,
-  TextInput,
+  TextInput, ScrollView
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
@@ -69,6 +68,7 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
 
   const [input, setInput] = useState("");
   const [suggestion, setSuggestion] = useState<string[]>([]);
+  const { username } = useAuth();
 
   if (!context) {
     return <Text> Loading ...</Text>;
@@ -88,7 +88,6 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
 
   console.log("token:", token, "role:", role);
 
-
   /**
    * This hook iterates through the list of bulletins and appends each title to the Trie.
    */
@@ -98,7 +97,6 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
     bulletins.forEach((bulletin) => newTrie.insert(bulletin.title));
     setTrie(newTrie);
   }, [bulletins]);
-
 
   /**
    * This hook sets the suggestion property of the setSuggestion helper to input, whenever input is greater than zero, ie not null.
@@ -165,7 +163,6 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
    * If a tab has been selected and the input from the trie is null (does not exist), the bulletins belonging to the index are displayed.  If input is not empty, bulletins with titles matching the input for the search filter are displayed.  This means that the bulletins are dynamically selected, filtering for category enum and for substring search input for title.
    */
 
-
   const selectedTabIndex = categoryEnumMap[selectedTab];
   //MemberBulletinCategory[selectedTab as keyof typeof MemberBulletinCategory];
   const filteredBulletins = bulletins.filter(
@@ -175,21 +172,20 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
         item.title.toLowerCase().includes(input.toLowerCase()))
   );
 
-
-/**
- * This function returns a bulletin with a title matching a selection.
- * @param title (selected by user on press)
- * @returns  Matching bulletin
- */
+  /**
+   * This function returns a bulletin with a title matching a selection.
+   * @param title (selected by user on press)
+   * @returns  Matching bulletin
+   */
 
   const findBulletinByTitle = (title: string) =>
     bulletins.find((b) => b.title === title);
 
-/**
- * This function renders the suggestions returned by the Trie prefix search.  It renders pressable areas that allow navigation to the details of the item.
- * @param param0 It takes a string as a parameter.
- * @returns It returns all items with a title matching the string.
- */
+  /**
+   * This function renders the suggestions returned by the Trie prefix search.  It renders pressable areas that allow navigation to the details of the item.
+   * @param param0 It takes a string as a parameter.
+   * @returns It returns all items with a title matching the string.
+   */
 
   const renderSuggestions = ({ item }: { item: string }) => (
     <TouchableOpacity
@@ -208,11 +204,10 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
     </TouchableOpacity>
   );
 
-
   /**
    * This function is similar the one above, but it returns instead the bulletins filtered by the category and substring search.
-   * @param param0 
-   * @returns 
+   * @param param0
+   * @returns
    */
   const renderItem = ({ item }: { item: IItem }) => (
     <TouchableOpacity
@@ -234,12 +229,23 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
     );
   }
 
-
   /**
    * This UI has conditioanl rendering.  If a suggestion is entered in the search bar AND there is a prefix match, the UI renders those suggestions.  If no prefix matches are found, the UI renders the bulletins filtered by category and also by substring match.
    */
   return (
+    <ScrollView>
     <View style={{ flex: 1 }}>
+  
+      {username && (
+        <View style = {{flexDirection: "row", justifyContent: "flex-end"}}>
+          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+            <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+              ID: {username}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
       <TabMenu
         tabs={tabs}
         selectedTab={selectedTab}
@@ -251,7 +257,6 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
         value={input}
         onChangeText={setInput}
       />
-
 
       {suggestion.length > 0 ? (
         <FlatList
@@ -295,11 +300,11 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
         )}
       </View>
     </View>
+    </ScrollView>
   );
 };
 
 export default MemberBulletinSummary;
-
 
 /**
  * This is the styling.

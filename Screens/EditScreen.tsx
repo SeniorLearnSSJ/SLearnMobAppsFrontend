@@ -3,7 +3,7 @@
  */
 
 import React from "react";
-import { View, Text, Button, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, Button, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
 import { ItemContext } from "../Context/context";
@@ -35,6 +35,7 @@ const API_BASE = "http://192.168.1.244:5143/api/bulletins/member";
 export default function EditScreen({ navigation, route }: EditScreenProps) {
   const context = useContext(ItemContext);
   const fontContext = useContext(FontContext); // Correct: this is the *context value*
+  const { username } = useAuth();
 
   const { token } = useAuth();
   if (!context) {
@@ -106,10 +107,10 @@ export default function EditScreen({ navigation, route }: EditScreenProps) {
       alert("Failed to update bulletin");
     }
   };
-  
+
   /**
    * This function deletes the item from the backend the corresponds to the parameter.
-   * @param idToDelete 
+   * @param idToDelete
    */
 
   const deleteItem = async (idToDelete: string) => {
@@ -138,7 +139,7 @@ export default function EditScreen({ navigation, route }: EditScreenProps) {
 
   /**
    * This function updates the category to the category selected by the pressable element.
-   * @param category 
+   * @param category
    */
 
   const handleTypeSelect = (category: number) => {
@@ -149,137 +150,157 @@ export default function EditScreen({ navigation, route }: EditScreenProps) {
    * This is a user interface element.
    */
   return (
-    <View>
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-        Member bulletin details
-      </Text>
-
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>{item.id}</Text>
-
-      {/* 
-      <Text>{item.type}</Text> */}
-
-      <View style={styles.tabs}>
-        <TouchableOpacity
-          style={[styles.Button, { backgroundColor: "black", marginRight: 10 }]}
-          onPress={() => handleTypeSelect(0)}
-        >
-          <Text
-            style={{
-              color: "white",
-              fontSize: fontContext?.fontSize || 16,
-              backgroundColor: "black",
-            }}
-          >
-            Interest
+    <ScrollView>
+      <View>
+        <View style={styles.headerRow}>
+          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+            Member bulletin details
           </Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.Button, { backgroundColor: "black", marginRight: 10 }]}
-          onPress={() => handleTypeSelect(1)}
-        >
-          <Text
-            style={{
-              color: "white",
-              fontSize: fontContext?.fontSize || 16,
-              backgroundColor: "black",
-            }}
-          >
-            Event
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.Button, { backgroundColor: "black" }]}
-          onPress={() => handleTypeSelect(2)}
-        >
-          <Text
-            style={{
-              color: "white",
-              fontSize: fontContext?.fontSize || 16,
-              backgroundColor: "black",
-            }}
-          >
-            Update
-          </Text>
-        </TouchableOpacity>
+          {username && (
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+              <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+                ID: {username}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
 
         {/* 
+      <Text>{item.type}</Text> */}
+
+        <Text style={{ fontSize: fontContext?.fontSize || 16 }}>{item.id}</Text>
+
+        <View style={styles.tabs}>
+          <TouchableOpacity
+            style={[
+              styles.Button,
+              { backgroundColor: "black", marginRight: 10 },
+            ]}
+            onPress={() => handleTypeSelect(0)}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: fontContext?.fontSize || 16,
+                backgroundColor: "black",
+              }}
+            >
+              Interest
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[
+              styles.Button,
+              { backgroundColor: "black", marginRight: 10 },
+            ]}
+            onPress={() => handleTypeSelect(1)}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: fontContext?.fontSize || 16,
+                backgroundColor: "black",
+              }}
+            >
+              Event
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.Button, { backgroundColor: "black" }]}
+            onPress={() => handleTypeSelect(2)}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: fontContext?.fontSize || 16,
+                backgroundColor: "black",
+              }}
+            >
+              Update
+            </Text>
+          </TouchableOpacity>
+
+          {/* 
 
         <Button title="Interest" onPress={() => handleTypeSelect(0)} />
 
         <Button title="Event" onPress={() => handleTypeSelect(1)} />
 
         <Button title="Update" onPress={() => handleTypeSelect(2)} /> */}
-      </View>
+        </View>
 
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>Title</Text>
+        <Text style={{ fontSize: fontContext?.fontSize || 16 }}>Title</Text>
 
-      {/* <TextInput value={type} onChangeText={setType}></TextInput> */}
+        {/* <TextInput value={type} onChangeText={setType}></TextInput> */}
 
-      <TextInput
-        style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
-        value={title}
-        onChangeText={setTitle}
-      ></TextInput>
+        <TextInput
+          style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
+          value={title}
+          onChangeText={setTitle}
+        ></TextInput>
 
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>Content</Text>
+        <Text style={{ fontSize: fontContext?.fontSize || 16 }}>Content</Text>
 
-      <TextInput
-        style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
-        value={content}
-        onChangeText={setContent}
-      ></TextInput>
+        <TextInput
+          style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
+          value={content}
+          onChangeText={setContent}
+        ></TextInput>
 
-      <View style={styles.lowerButtons}>
+        <View style={styles.lowerButtons}>
+          <TouchableOpacity
+            style={[
+              styles.Button,
+              { backgroundColor: "black", marginRight: 15 },
+            ]}
+            onPress={handleSubmit}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: fontContext?.fontSize || 16,
+                backgroundColor: "black",
+              }}
+            >
+              Submit
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.Button, { backgroundColor: "black" }]}
+            onPress={() => deleteItem(item.id)}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: fontContext?.fontSize || 16,
+                backgroundColor: "black",
+              }}
+            >
+              Delete
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         <TouchableOpacity
-          style={[styles.Button, { backgroundColor: "black", marginRight: 15 }]}
-          onPress={handleSubmit}
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
         >
           <Text
             style={{
-              color: "white",
               fontSize: fontContext?.fontSize || 16,
-              backgroundColor: "black",
+              textAlign: "center",
+              color: "white",
             }}
           >
-            Submit
+            Back
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.Button, { backgroundColor: "black" }]}
-          onPress={() => deleteItem(item.id)}
-        >
-          <Text
-            style={{
-              color: "white",
-              fontSize: fontContext?.fontSize || 16,
-              backgroundColor: "black",
-            }}
-          >
-            Delete
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Text
-          style={{
-            fontSize: fontContext?.fontSize || 16,
-            textAlign: "center",
-            color: "white",
-          }}
-        >
-          Back
-        </Text>
-      </TouchableOpacity>
-
-      {/* 
+        {/* 
       <Button
         title="Submit"
         onPress={() => {
@@ -295,7 +316,8 @@ export default function EditScreen({ navigation, route }: EditScreenProps) {
       />
 
  */}
-    </View>
+      </View>
+    </ScrollView>
   );
 }
 

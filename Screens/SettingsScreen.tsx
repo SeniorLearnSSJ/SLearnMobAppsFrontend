@@ -45,9 +45,9 @@ type SettingsScreenProps = NativeStackScreenProps<
   }
  */
 
-  /**
-   * Makes URL readable.
-   */
+/**
+ * Makes URL readable.
+ */
 const Settings_API_URL = "http://192.168.1.244:5143/api/profile/settings";
 
 /**
@@ -61,6 +61,7 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
   const authContext = useContext(AuthContext);
   const itemContext = useContext(ItemContext);
   const { token } = useAuth();
+  const { username } = useAuth();
 
   if (!authContext || !itemContext) {
     return <Text>Loading....</Text>;
@@ -113,8 +114,6 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
     }
   };
 
-
-
   useEffect(() => {
     setLoading(true);
     getSettings()
@@ -132,8 +131,8 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
   /**
    * This function takes the data from the backend and updates where necessary.
    * @param fontSize T
-   * @param darkMode 
-   * @param enableNotifications 
+   * @param darkMode
+   * @param enableNotifications
    */
   const updateItem = async (
     fontSize: number,
@@ -163,7 +162,7 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
 
   /**
    * This function updates the font size with the size input.  It is a local update to state.
-   * @param size 
+   * @param size
    */
   const handleSubmitFont = (size: number) => {
     setFontSize(size);
@@ -183,58 +182,82 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
   return (
     <ScrollView>
       <SafeAreaView>
-        <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-          Settings screen
-        </Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+            Settings screen
+          </Text>
+
+          {username && (
+            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+              <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+                <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+                  ID: {username}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+
         <View style={{ margin: 20 }}>
           <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
             Font size
           </Text>
 
-          <TouchableOpacity
-            style={styles.input}
-            onPress={() => handleSubmitFont(16)}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontSize: fontContext?.fontSize || 16,
-                //backgroundColor: "black",
-              }}
+          <View style={{ flexDirection: "row" }}>
+            <TouchableOpacity
+              style={[
+                styles.input,
+                { paddingVertical: 10, paddingHorizontal: 20 },
+              ]}
+              onPress={() => handleSubmitFont(16)}
             >
-              16
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: fontContext?.fontSize || 16,
+                  //backgroundColor: "black",
+                }}
+              >
+                16
+              </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.input}
-            onPress={() => handleSubmitFont(20)}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontSize: fontContext?.fontSize || 16,
-                // backgroundColor: "black",
-              }}
+            <TouchableOpacity
+              style={[
+                styles.input,
+                { paddingVertical: 10, paddingHorizontal: 20 },
+              ]}
+              onPress={() => handleSubmitFont(20)}
             >
-              20
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: fontContext?.fontSize || 16,
+                  // backgroundColor: "black",
+                }}
+              >
+                20
+              </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.input}
-            onPress={() => handleSubmitFont(24)}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontSize: fontContext?.fontSize || 16,
-                //backgroundColor: "black",
-              }}
+            <TouchableOpacity
+              style={[
+                styles.input,
+                { paddingVertical: 10, paddingHorizontal: 20 },
+              ]}
+              onPress={() => handleSubmitFont(24)}
             >
-              24
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: fontContext?.fontSize || 16,
+                  //backgroundColor: "black",
+                }}
+              >
+                24
+              </Text>
+            </TouchableOpacity>
+          </View>
 
           {/* 
 
@@ -243,12 +266,6 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
         <Button title="20" onPress={() => handleSubmitFont(20)}></Button>
         <Button title="24" onPress={() => handleSubmitFont(24)}></Button>
  */}
-
-
-
-
-
- 
         </View>
         <View style={{ margin: 20 }}>
           <Text
@@ -274,14 +291,6 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
           />
         </View>
 
-
-
-
-
-
-
-
-
         <View style={styles.bottomButtons}>
           <TouchableOpacity
             style={styles.buttonLeft}
@@ -298,7 +307,7 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
             </Text>
           </TouchableOpacity>
 
-  {/*         <TouchableOpacity style={styles.buttonRight} onPress={logout}>
+          {/*         <TouchableOpacity style={styles.buttonRight} onPress={logout}>
             <Text
               style={{
                 color: "white",
@@ -311,8 +320,6 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
           </TouchableOpacity>
 
  */}
-
-
         </View>
 
         {/*       <View>

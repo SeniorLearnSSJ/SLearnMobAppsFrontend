@@ -2,7 +2,14 @@
  * Imports React and React Native components, as well as custom types and interfaces.
  */
 import React from "react";
-import { View, Text, Button, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList, IItem } from "../types";
 import { useState } from "react";
@@ -18,15 +25,13 @@ import { StyleSheet } from "react-native";
  */
 type AddScreenProps = NativeStackScreenProps<RootStackParamList, "Add">;
 
-
 /**
  * Makes the API readable.
  */
 const API_URL = "http://192.168.1.244:5143/api/bulletins/member";
 
-
 /**
- * A functioanl component.  Makes state management and context available to all its child components. 
+ * A functioanl component.  Makes state management and context available to all its child components.
  * @param param0 Takes navigation props.
  * @returns The UI for the screen.
  */
@@ -107,10 +112,9 @@ export default function AddScreen({ navigation }: AddScreenProps) {
     }
   };
 
-
   /**
    * This function sets the cateogry on button press in the UI.
-   * @param category 
+   * @param category
    */
   const handleTypeSelect = (category: number) => {
     setCategory(category);
@@ -120,21 +124,22 @@ export default function AddScreen({ navigation }: AddScreenProps) {
    * This is the user interface, containing text input fields and pressable areas.
    */
   return (
-    <View style={styles.container}>
-      <View style={styles.headerRow}>
-        <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-          Add Screen
-        </Text>
+    <ScrollView>
+      <View style={styles.container}>
+        <View style={styles.headerRow}>
+          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+            Add Screen
+          </Text>
 
-        {username && (
-          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-            <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-              ID: {username}
-            </Text>
-          </TouchableOpacity>
-        )}
-      </View>
-      {/*  <TextInput
+          {username && (
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+              <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+                ID: {username}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+        {/*  <TextInput
         
         placeholder="Enter id"
         onChangeText={newText => setId(newText)}
@@ -142,7 +147,7 @@ export default function AddScreen({ navigation }: AddScreenProps) {
       />
  */}
 
-      {/*  <TextInput
+        {/*  <TextInput
         
         placeholder="Enter type"
         onChangeText={newText => setType(newText)}
@@ -152,84 +157,84 @@ export default function AddScreen({ navigation }: AddScreenProps) {
 
  */}
 
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <TouchableOpacity
-          style={styles.event}
-          onPress={() => handleTypeSelect(1)}
-        >
-          <Text
-            style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <TouchableOpacity
+            style={styles.event}
+            onPress={() => handleTypeSelect(1)}
           >
-            {" "}
-            Interest{" "}
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
+            >
+              {" "}
+              Interest{" "}
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.event}
-          onPress={() => handleTypeSelect(2)}
-        >
-          <Text
-            style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
+          <TouchableOpacity
+            style={styles.event}
+            onPress={() => handleTypeSelect(2)}
           >
-            {" "}
-            Update{" "}
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
+            >
+              {" "}
+              Update{" "}
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.event}
-          onPress={() => handleTypeSelect(3)}
-        >
-          <Text
-            style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
+          <TouchableOpacity
+            style={styles.event}
+            onPress={() => handleTypeSelect(3)}
           >
-            {" "}
-            Event{" "}
-          </Text>
-        </TouchableOpacity>
-      </View>
+            <Text
+              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
+            >
+              {" "}
+              Event{" "}
+            </Text>
+          </TouchableOpacity>
+        </View>
 
-      <TextInput
-        placeholder="Enter title"
-        style={[
-          { fontSize: fontContext?.fontSize || 16, color: "black" },
-          styles.input,
-        ]}
-        onChangeText={(newText) => setTitle(newText)}
-      />
+        <TextInput
+          placeholder="Enter title"
+          style={[
+            { fontSize: fontContext?.fontSize || 16, color: "black" },
+            styles.input,
+          ]}
+          onChangeText={(newText) => setTitle(newText)}
+        />
 
-      <TextInput
-        placeholder="Enter content"
-        style={[
-          { fontSize: fontContext?.fontSize || 16, color: "black" },
-          styles.input,
-        ]}
-        onChangeText={(newText) => setContent(newText)}
-      />
+        <TextInput
+          placeholder="Enter content"
+          style={[
+            { fontSize: fontContext?.fontSize || 16, color: "black" },
+            styles.input,
+          ]}
+          onChangeText={(newText) => setContent(newText)}
+        />
 
-      <View style={styles.bottomButtons}>
-        <TouchableOpacity
-          style={styles.buttonLeft}
-          onPress={() => navigation.goBack()}
-        >
-          <Text
-            style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
+        <View style={styles.bottomButtons}>
+          <TouchableOpacity
+            style={styles.buttonLeft}
+            onPress={() => navigation.goBack()}
           >
-            Back
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
+            >
+              Back
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={handleSubmit} style={styles.buttonRight}>
-          <Text
-            style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
-          >
-            {" "}
-            Submit{" "}
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={handleSubmit} style={styles.buttonRight}>
+            <Text
+              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
+            >
+              {" "}
+              Submit{" "}
+            </Text>
+          </TouchableOpacity>
 
-        {/*         <TouchableOpacity
+          {/*         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
@@ -244,7 +249,7 @@ export default function AddScreen({ navigation }: AddScreenProps) {
           </Text>
         </TouchableOpacity> */}
 
-        {/*       <Button title="1" onPress={() => handleTypeSelect("1")} />
+          {/*       <Button title="1" onPress={() => handleTypeSelect("1")} />
 
       <Button title="2" onPress={() => handleTypeSelect("2")} />
 
@@ -256,11 +261,11 @@ export default function AddScreen({ navigation }: AddScreenProps) {
       />
 
       <Button title="Submit" onPress={handleSubmit} /> */}
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
-
 
 /**
  * This is the styling for the screen's UI.
@@ -293,14 +298,14 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 10,
     borderRadius: 10,
-    backgroundColor: "black"
+    backgroundColor: "black",
   },
 
   buttonRight: {
     flex: 1,
     marginLeft: 10,
     borderRadius: 10,
-    backgroundColor: "black"
+    backgroundColor: "black",
   },
 
   event: {

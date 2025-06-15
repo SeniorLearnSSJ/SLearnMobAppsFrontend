@@ -13,13 +13,12 @@ import { useContext } from "react";
 import { FontContext } from "../Context/fontContext";
 import { useAuth } from "../Context/AuthContext";
 import { StyleSheet } from "react-native";
-
+import { ScrollView } from "react-native-gesture-handler";
 
 /**
  * This constant sets the backend API to a more readable format.
  */
 const API_URL = "http://192.168.1.244:5143/api/bulletins/official";
-
 
 /**
  * This code adds the screen to the navigation stack.
@@ -33,7 +32,7 @@ type AddOfficialScreenProps = NativeStackScreenProps<
 /**
  * This is a functional component that takes navigation props as a parameter.
  * It provides state management and context to every component within itself.  It returns a UI element.
- * @param param0 Navigation properties 
+ * @param param0 Navigation properties
  * @returns A react element rendering the AddOfficial screen UI.
  */
 
@@ -54,7 +53,6 @@ export default function AddOfficialScreen({
     IOfficialBulletin[]
   >([]);
   const [loading, setLoading] = useState(true); */
-
 
   /**
    * This is a function that validates data submitted via a form.  It validates such things as field entries and tokens and navigates away to another screen on form submission.
@@ -103,21 +101,22 @@ export default function AddOfficialScreen({
    */
 
   return (
-    <View style={styles.container}>
-      <View style={styles.headerRow}>
-        <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-          Admin Add Screen
-        </Text>
+    <ScrollView>
+      <View style={styles.container}>
+        <View style={styles.headerRow}>
+          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+            Admin Add Screen
+          </Text>
 
-        {username && (
-          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-            <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-              ID: {username}
-            </Text>
-          </TouchableOpacity>
-        )}
-      </View>
-      {/*  <TextInput
+          {username && (
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+              <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+                ID: {username}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+        {/*  <TextInput
         
         placeholder="Enter id"
         onChangeText={newText => setId(newText)}
@@ -125,7 +124,7 @@ export default function AddOfficialScreen({
       />
  */}
 
-      {/*  <TextInput
+        {/*  <TextInput
         
         placeholder="Enter type"
         onChangeText={newText => setType(newText)}
@@ -135,19 +134,19 @@ export default function AddOfficialScreen({
 
  */}
 
-      <TextInput
-        placeholder="Enter title"
-        style={[{ fontSize: fontContext?.fontSize || 16 }, styles.input]}
-        onChangeText={(newText) => setTitle(newText)}
-      />
+        <TextInput
+          placeholder="Enter title"
+          style={[{ fontSize: fontContext?.fontSize || 16 }, styles.input]}
+          onChangeText={(newText) => setTitle(newText)}
+        />
 
-      <TextInput
-        placeholder="Enter content"
-        style={[{ fontSize: fontContext?.fontSize || 16 }, styles.input]}
-        onChangeText={(newText) => setContent(newText)}
-      />
+        <TextInput
+          placeholder="Enter content"
+          style={[{ fontSize: fontContext?.fontSize || 16 }, styles.input]}
+          onChangeText={(newText) => setContent(newText)}
+        />
 
-      {/* 
+        {/* 
 
 
       <TouchableOpacity
@@ -165,33 +164,30 @@ export default function AddOfficialScreen({
 
  */}
 
-      <View style={styles.bottomButtons}>
-        <TouchableOpacity
-          style={styles.buttonLeft}
-          onPress={() => navigation.goBack()}
-        >
-          <Text
-            style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
+        <View style={styles.bottomButtons}>
+          <TouchableOpacity
+            style={styles.buttonLeft}
+            onPress={() => navigation.goBack()}
           >
-            Back
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
+            >
+              Back
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonRight} onPress={handleSubmit}>
-          <Text
-            style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
-          >
-            Submit
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonRight} onPress={handleSubmit}>
+            <Text
+              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
+            >
+              Submit
+            </Text>
+          </TouchableOpacity>
 
-        {/* <Button title="Submit" onPress={handleSubmit} /> */}
-      </View>
+          {/* <Button title="Submit" onPress={handleSubmit} /> */}
+        </View>
 
-
-
-
-{/* 
+        {/* 
 
 
       <TouchableOpacity
@@ -211,18 +207,8 @@ export default function AddOfficialScreen({
 
 
  */}
-
-
-
-
-
-
-
-
-
-
-
-    </View>
+      </View>
+    </ScrollView>
   );
 }
 

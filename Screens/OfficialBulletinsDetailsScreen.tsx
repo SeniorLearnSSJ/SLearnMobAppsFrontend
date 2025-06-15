@@ -8,7 +8,7 @@ import {
   Text,
   Button,
   ActivityIndicator,
-  TouchableOpacity,
+  TouchableOpacity, ScrollView
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { IOfficialBulletin, RootStackParamList } from "../types";
@@ -60,11 +60,11 @@ export default function OfficialBulletinsDetailsScreen({
   } = context;
   const { item } = route.params as { item: IOfficialBulletin };
   const currentNode = officialBulletinList.getNodeById(item.id);
-
+  const { username } = useAuth();
 
   /**
    * This deletes the item corresponding to the parameter.
-   * @param idToDelete 
+   * @param idToDelete
    */
   const deleteItem = async (idToDelete: string) => {
     try {
@@ -91,7 +91,7 @@ export default function OfficialBulletinsDetailsScreen({
 
   /**
    * This function takes a node as param and navigates to the item matching the selected id, replacing the current screen with the screen correspoding to the id.  The selected node's data is displayed.
-   * @param node 
+   * @param node
    */
 
   const handleNavigate = (node: ListNode) => {
@@ -123,10 +123,21 @@ export default function OfficialBulletinsDetailsScreen({
    * This is this UI.  If a node is not selected or there is no next/previous node, the next/prev buttons are greyed out.  Otherwise, nodes are used to navigate back and forth through the linked list.
    */
   return (
+    <ScrollView>
     <View>
       <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
         Official bulletin details
       </Text>
+
+      {username && (
+        <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+            <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+              ID: {username}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
       {/* 
       <Text>{item.datetime.toDateString()}</Text> */}
@@ -189,8 +200,6 @@ export default function OfficialBulletinsDetailsScreen({
         )}
       </View>
 
-
-
       <View style={styles.bottomButtons}>
         <TouchableOpacity
           style={[
@@ -251,6 +260,7 @@ export default function OfficialBulletinsDetailsScreen({
       /> */}
       </View>
     </View>
+    </ScrollView>
   );
 }
 

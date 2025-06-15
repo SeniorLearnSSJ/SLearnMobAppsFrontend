@@ -1,10 +1,9 @@
-
 /**
  * This imports React and React Native components, as well as navigation props, context and a useAuth custom hook that enables access to the authorisation context.
  */
 
 import React from "react";
-import { View, Text, Button, TouchableOpacity } from "react-native";
+import { View, Text, Button, TouchableOpacity, ScrollView } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
 import { FontContext } from "../Context/fontContext";
@@ -20,7 +19,6 @@ type BulletinChoiceScreenProps = NativeStackScreenProps<
   "BulletinChoice"
 >;
 
-
 /**
  * This functional component takes navigation props as a parameter and returns the UI.
  * @param param0 Navigation props
@@ -33,89 +31,88 @@ export default function BulletinChoiceScreen({
   const { username } = useAuth(); // 👈 this gives you access to the user object
 
   return (
-    <View style={styles.container}>
-      <View style={styles.headerRow}>
-        <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-          Bulletin Choice Screen
-        </Text>
+    <ScrollView>
+      <View style={styles.container}>
+        <View style={styles.headerRow}>
+          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+            Bulletin Choice Screen
+          </Text>
 
-        {username && (
-          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-            <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-              ID: {username}
-            </Text>
-          </TouchableOpacity>
-        )}
-      </View>
-      {/*       <Button
+          {username && (
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+              <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+                ID: {username}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+        {/*       <Button
         title="Go to member bulletins"
         onPress={() => navigation.navigate("MemberBulletinSummary")}
       />
 
  */}
 
-      <TouchableOpacity
-        style={[styles.Button, { backgroundColor: "black" }]}
-        onPress={() => navigation.navigate("MemberBulletinSummary")}
-      >
-        <Text
-          style={{
-            color: "white",
-            fontSize: fontContext?.fontSize || 16,
-            backgroundColor: "black",
-          }}
+        <TouchableOpacity
+          style={[styles.Button, { backgroundColor: "black" }]}
+          onPress={() => navigation.navigate("MemberBulletinSummary")}
         >
-          Member Bulletins
-        </Text>
-      </TouchableOpacity>
+          <Text
+            style={{
+              color: "white",
+              fontSize: fontContext?.fontSize || 16,
+              backgroundColor: "black",
+            }}
+          >
+            Member Bulletins
+          </Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[styles.Button, { backgroundColor: "black" }]}
-        onPress={() => navigation.navigate("OfficialBulletinsSummary")}
-      >
-        <Text
-          style={{
-            color: "white",
-            fontSize: fontContext?.fontSize || 16,
-            backgroundColor: "black",
-          }}
+        <TouchableOpacity
+          style={[styles.Button, { backgroundColor: "black" }]}
+          onPress={() => navigation.navigate("OfficialBulletinsSummary")}
         >
-          Official Bulletins
-        </Text>
-      </TouchableOpacity>
+          <Text
+            style={{
+              color: "white",
+              fontSize: fontContext?.fontSize || 16,
+              backgroundColor: "black",
+            }}
+          >
+            Official Bulletins
+          </Text>
+        </TouchableOpacity>
 
-
-
-     <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Text
-          style={{ fontSize: fontContext?.fontSize || 16, textAlign: "center", color: "white" }}
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.navigate("Login")}
         >
-          Back
-        </Text>
-      </TouchableOpacity>
+          <Text
+            style={{
+              fontSize: fontContext?.fontSize || 16,
+              textAlign: "center",
+              color: "white",
+            }}
+          >
+            Back
+          </Text>
+        </TouchableOpacity>
 
+        {/* <Text>Bulletin Choice Screen</Text> */}
 
-
-
-
-      {/* <Text>Bulletin Choice Screen</Text> */}
-
-      {/* 
+        {/* 
       <Button
         title="Go to official bulletins"
         onPress={() => navigation.navigate("OfficialBulletinsSummary")}
       />
  */}
 
-      {/*         <Button
+        {/*         <Button
         title="Go to ofiical bulletins"
         onPress={() => navigation.navigate("OfficialBulletinsSummary")};
       />  */}
 
-      {/*       <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+        {/*       <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
         <Text
           style={{
             color: "white",
@@ -127,7 +124,8 @@ export default function BulletinChoiceScreen({
         </Text>
       </TouchableOpacity>
  */}
-    </View>
+      </View>
+    </ScrollView>
   );
 }
 
@@ -153,9 +151,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
-  backButton:{
+  backButton: {
     backgroundColor: "black",
     color: "white",
-    borderRadius: 15
-  }
+    borderRadius: 15,
+  },
 });

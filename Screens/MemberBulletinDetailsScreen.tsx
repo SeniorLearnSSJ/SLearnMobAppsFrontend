@@ -47,6 +47,7 @@ export default function MemberBulletinDetailsScreen({
   const context = useContext(ItemContext);
   const { token, role } = useAuth();
   const fontContext = useContext(FontContext);
+  const { username } = useAuth();
 
   if (!context) {
     return <Text> Loading....</Text>;
@@ -93,7 +94,6 @@ export default function MemberBulletinDetailsScreen({
     );
   }
 
-
   /**
    * This is the UI.
    */
@@ -102,9 +102,20 @@ export default function MemberBulletinDetailsScreen({
       style={styles.container}
       contentContainerStyle={{ paddingBottom: 100 }}
     >
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-        Member bulletin details
-      </Text>
+      <View style={styles.headerRow}>
+        <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+          Member bulletin details
+        </Text>
+
+        {username && (
+          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+            <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+              ID: {username}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+
       <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
         {item.category}
       </Text>
