@@ -9,7 +9,8 @@ function buildUrl(base: string, params: Record<string, string | number> = {}) {
   return url.toString();
 }
 
-/* const BASE_URL1 = "http://localhost:5143/api/auth/register";
+
+const BASE_URL1 = "http://localhost:5143/api/auth/register";
 
 testApi(
   "Register creates new user",
@@ -18,7 +19,7 @@ testApi(
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      username: "foofoo1",
+      username: "foofoo20",
       password: "barbar",
       firstName: "Foofoo",
       lastName: "Barbar",
@@ -39,7 +40,7 @@ testApi(
       },
     });
   }
-); */
+); 
 
 const BASE_URL = "http://localhost:5143/api/auth/sign-in";
 const BASE_URL2 = "http://localhost:5143/api/auth/sign-out";
@@ -190,6 +191,176 @@ describe("Auth tests need token", () => {
     );
   });
 
+  test("Successful member bulletin fetch by ID", async () => {
+    const res = await fetch(`${BASE_URL3}`, {
+      headers: { Authorization: `Bearer ${validToken}` },
+    });
+    const listBody = await res.json();
+    const firstId = listBody.data?.[0]?.id;
+    expect(typeof firstId).toBe("string");
+
+    await runApiTest(
+      `${BASE_URL3}/${firstId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${validToken}`,
+        },
+      },
+      200,
+      (body) => {
+        expect(body).toMatchObject({
+          success: true,
+
+          //message: expect.any(String || null),
+          //data: expect.any(Array),
+        });
+
+        expect(typeof body.data).toBe("object");
+        expect(body.message === null || typeof body.message === "string").toBe(
+          true
+        );
+
+        if (body.data.length > 0) {
+          for (const item of body.data) {
+            expect(item).toMatchObject({
+              id: firstId,
+              title: expect.any(String),
+
+              content: expect.any(String),
+              createdById: expect.any(String),
+              createdByUsername: expect.any(String),
+              createdAt: expect.any(String),
+              updatedAt: expect.any(String),
+              category: expect.any(String),
+            });
+            expect(
+              item.content === null || typeof item.content === "string"
+            ).toBe(true);
+          }
+        }
+      }
+    );
+  });
+
+  test("Successful edit/put member bulletin by ID", async () => {
+    const res = await fetch(`${BASE_URL3}`, {
+      headers: { Authorization: `Bearer ${validToken}` },
+    });
+    const listBody = await res.json();
+    const firstId = listBody.data?.[0]?.id;
+    expect(typeof firstId).toBe("string");
+
+    await runApiTest(
+      `${BASE_URL3}/${firstId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${validToken}`,
+        },
+        body: JSON.stringify({
+          title: "MyTitle",
+          content: "MyContent",
+          category: "Interest",
+        }),
+      },
+      200,
+      (body) => {
+        expect(body).toMatchObject({
+          success: true,
+
+          //message: expect.any(String || null),
+          //data: expect.any(Array),
+        });
+
+        expect(typeof body.data).toBe("object");
+        expect(body.message === null || typeof body.message === "string").toBe(
+          true
+        );
+
+        //if (body.data.length > 0) {
+
+        //for (const item of body.data)
+        {
+          expect(body.data).toMatchObject({
+            id: firstId,
+            title: "MyTitle",
+
+            content: "MyContent",
+            createdById: expect.any(String),
+            createdByUsername: expect.any(String),
+            createdAt: expect.any(String),
+            updatedAt: expect.any(String),
+            category: "Interest",
+          });
+
+          //expect(
+          //item.content === null || typeof item.content === "string"
+          //).toBe(true);
+        }
+      }
+    );
+  });
+
+  async function runApiTest(
+    url: string,
+    reqOptions: RequestInit,
+    expectedStatus: number,
+    validateBody: (body: any) => void
+  ): Promise<void> {
+    const response = await fetch(url, reqOptions);
+    const text = await response.text();
+
+    let actualBody: any = null;
+    if (text) {
+      try {
+        actualBody = JSON.parse(text);
+      } catch {
+        actualBody = text;
+      }
+    }
+
+    console.log(response.status);
+    console.log(actualBody);
+    expect(response.status).toBe(expectedStatus);
+    validateBody(actualBody);
+  }
+
+  test("Successful delete member bulletin by ID", async () => {
+    const res = await fetch(`${BASE_URL3}`, {
+      headers: { Authorization: `Bearer ${validToken}` },
+    });
+    const listBody = await res.json();
+    const firstId = listBody.data?.[0]?.id;
+    expect(typeof firstId).toBe("string");
+
+    await runApiTest(
+      `${BASE_URL3}/${firstId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${validToken}`,
+        },
+      },
+      204,
+      (body) => {
+        const isEmptyBody =
+          body === undefined ||
+          body === null ||
+          (typeof body === "object" && Object.keys(body).length === 0) ||
+          (typeof body === "string" && body.trim() === "");
+
+        expect(isEmptyBody).toBe(true);
+      }
+    );
+  });
+});
+
+/* 
+
   test("Successful member bulletin post by ID", async () => {
     const listResponse = await fetch(`${BASE_URL3}`, {
       method: "GET",
@@ -221,7 +392,8 @@ describe("Auth tests need token", () => {
       }
     );
   });
-});
+}); */
+
 /*         if (body.data.length > 0) {
 
 

@@ -2,14 +2,15 @@
  * Imports React and React Native components, along with navigation props, custom types and interfaces, and the logLogin function.
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   TextInput,
   Button,
   Alert,
-  TouchableOpacity, ScrollView
+  TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
@@ -20,8 +21,7 @@ import { useAuth } from "../Context/AuthContext";
 import { ItemContext } from "../Context/context";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
-import { logLogin } from "../logLogins";
-
+import { logLogin, getLoginHistory } from "../logLogins";
 
 /**
  * This adds the screen to the navigation stack.
@@ -56,6 +56,13 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { token, setToken } = authContext;
+
+  useEffect(() => {
+    getLoginHistory((data) => {
+      console.log("Login history data:", data);
+      // You could update state here if you want to display or process it
+    });
+  }, []);
 
   /**
    * This function handles form submission. It also logs the username to a text file on successful login.
@@ -108,80 +115,79 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
     console.error('Error creating item:', error);
   } */
 
-
-    /**
-     * This is the user interface.
-     */
+  /**
+   * This is the user interface.
+   */
   return (
     <ScrollView>
-    <View>
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-        Login Screen
-      </Text>
+      <View>
+        <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+          Login Screen
+        </Text>
 
-      <TextInput
-        placeholder="Enter username"
-        value={username}
-        onChangeText={(newText) => setUsername(newText)}
-        style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
-      />
+        <TextInput
+          placeholder="Enter username"
+          value={username}
+          onChangeText={(newText) => setUsername(newText)}
+          style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
+        />
 
-      <TextInput
-        placeholder="Enter password"
-        value={password}
-        onChangeText={(newText) => setPassword(newText)}
-        style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
-      />
+        <TextInput
+          placeholder="Enter password"
+          value={password}
+          onChangeText={(newText) => setPassword(newText)}
+          style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
+        />
 
-      <View style={styles.lowerButtons}>
-        <TouchableOpacity style={styles.buttonLeft} onPress={handleSubmit}>
-          <Text
-            style={{
-              color: "white",
-              fontSize: fontContext?.fontSize || 16,
-              backgroundColor: "black",
-              borderRadius: 15,
-              marginBottom: 15,
-            }}
+        <View style={styles.lowerButtons}>
+          <TouchableOpacity style={styles.buttonLeft} onPress={handleSubmit}>
+            <Text
+              style={{
+                color: "white",
+                fontSize: fontContext?.fontSize || 16,
+                backgroundColor: "black",
+                borderRadius: 15,
+                marginBottom: 15,
+              }}
+            >
+              Submit
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.buttonRight}
+            onPress={() => navigation.navigate("Register")}
           >
-            Submit
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={{
+                color: "white",
+                fontSize: fontContext?.fontSize || 16,
+                backgroundColor: "black",
+                borderRadius: 15,
+                marginBottom: 15,
+              }}
+            >
+              Register
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity
-          style={styles.buttonRight}
-          onPress={() => navigation.navigate("Register")}
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
         >
           <Text
             style={{
-              color: "white",
               fontSize: fontContext?.fontSize || 16,
-              backgroundColor: "black",
-              borderRadius: 15,
-              marginBottom: 15,
+              textAlign: "center",
+              color: "white",
             }}
           >
-            Register
+            Back
           </Text>
         </TouchableOpacity>
-      </View>
 
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Text
-          style={{
-            fontSize: fontContext?.fontSize || 16,
-            textAlign: "center",
-            color: "white",
-          }}
-        >
-          Back
-        </Text>
-      </TouchableOpacity>
-
-      {/*       <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+        {/*       <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
         <Text
           style={{
             color: "white",
@@ -193,7 +199,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
         </Text>
       </TouchableOpacity> */}
 
-      {/*       <Button title="Submit" onPress={handleSubmit} />
+        {/*       <Button title="Submit" onPress={handleSubmit} />
 
       <Button
         title="Register"
@@ -205,7 +211,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
         onPress={() => navigation.navigate("Settings")}
       />
  */}
-    </View>
+      </View>
     </ScrollView>
   );
 }
