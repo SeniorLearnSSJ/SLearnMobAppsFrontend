@@ -18,7 +18,7 @@ import { ScrollView } from "react-native-gesture-handler";
 /**
  * This constant sets the backend API to a more readable format.
  */
-const API_URL = "http://192.168.1.244:5143/api/bulletins/official";
+const API_URL = "http://172.19.159.72:5143/api/bulletins/official";
 
 /**
  * This code adds the screen to the navigation stack.

@@ -59,6 +59,6 @@ app.get("/api/bulletins/official", (req, res) => {
   res.json({ success: true, data: [] });
 });
 
-app.listen(port, "192.168.1.244", () => {
-  console.log(`Auth backend running at http://192.168.1.244::${port}`);
+app.listen(port, "172.19.159.72", () => {
+  console.log(`Auth backend running at http://172.19.159.72::${port}`);
 });

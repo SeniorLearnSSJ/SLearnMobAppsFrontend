@@ -24,7 +24,7 @@ type EditScreenProps = NativeStackScreenProps<RootStackParamList, "Edit">;
 /**
  * This assigns a readable constant to the API.
  */
-const API_BASE = "http://192.168.1.244:5143/api/bulletins/member";
+const API_BASE = "http://172.19.159.72:5143/api/bulletins/member";
 
 /**
  * This functioanl component takes nav props and route params.  It returns the UI.

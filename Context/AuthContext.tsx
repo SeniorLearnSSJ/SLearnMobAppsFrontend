@@ -161,9 +161,10 @@ console.log("Raw Token:", response?.token);
       console.log(response);
       if (response.success && response.token) {
         {
-          setToken(response.token);
+          const accessToken = response.token;
+          setToken(accessToken);
 
-          const decoded = parseJwt(response.token);
+          const decoded = parseJwt(accessToken);
 
 
           console.log("Full Decoded JWT Payload:", decoded);
