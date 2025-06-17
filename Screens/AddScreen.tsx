@@ -9,6 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList, IItem } from "../types";
@@ -19,6 +20,8 @@ import { useContext } from "react";
 import { FontContext } from "../Context/fontContext";
 import { useAuth } from "../Context/AuthContext";
 import { StyleSheet } from "react-native";
+import { styles } from "../styles";
+import { MemberBulletinCategory } from "../types";
 
 /**
  * Adds the screen to navigation stack.
@@ -28,7 +31,7 @@ type AddScreenProps = NativeStackScreenProps<RootStackParamList, "Add">;
 /**
  * Makes the API readable.
  */
-const API_URL = "http://172.19.159.72:5143/api/bulletins/member";
+const API_URL = "http://192.168.1.244:5143/api/bulletins/member";
 
 /**
  * A functioanl component.  Makes state management and context available to all its child components.
@@ -63,7 +66,7 @@ export default function AddScreen({ navigation }: AddScreenProps) {
       return;
     }
 
-    if (!title.trim() || !category) {
+    if (!title.trim() || category == null) {
       alert("Fill all fields");
       return;
     }
@@ -127,6 +130,40 @@ export default function AddScreen({ navigation }: AddScreenProps) {
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.headerRow}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Image
+              source={require("../Back02.png")} // or your image path
+              style={styles.logo}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.navigate("Atrium")}
+          >
+            <Image
+              source={require("../Logo2.png")} // or your image path
+              style={styles.logo}
+            />
+          </TouchableOpacity>
+
+          {username && (
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.navigate("Profile")}
+            >
+              <Image
+                source={require("../Profile.png")} // or your image path
+                style={styles.logo}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+
+        <View style={styles.headerRow}>
           <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
             Add Screen
           </Text>
@@ -159,36 +196,31 @@ export default function AddScreen({ navigation }: AddScreenProps) {
 
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <TouchableOpacity
-            style={styles.event}
-            onPress={() => handleTypeSelect(1)}
+           
+              style={[styles.event, category === MemberBulletinCategory.Interest && styles.selectedCategory]}
+            onPress={() => handleTypeSelect(MemberBulletinCategory.Interest)}
           >
-            <Text
-              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
-            >
+            <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
               {" "}
               Interest{" "}
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.event}
-            onPress={() => handleTypeSelect(2)}
+           style={[styles.event, category === MemberBulletinCategory.Update && styles.selectedCategory]}
+            onPress={() => handleTypeSelect(MemberBulletinCategory.Update)}
           >
-            <Text
-              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
-            >
+            <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
               {" "}
               Update{" "}
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.event}
-            onPress={() => handleTypeSelect(3)}
+            style={[styles.event, category === MemberBulletinCategory.Event && styles.selectedCategory]}
+            onPress={() => handleTypeSelect(MemberBulletinCategory.Event)}
           >
-            <Text
-              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
-            >
+            <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
               {" "}
               Event{" "}
             </Text>
@@ -213,28 +245,14 @@ export default function AddScreen({ navigation }: AddScreenProps) {
           onChangeText={(newText) => setContent(newText)}
         />
 
-        <View style={styles.bottomButtons}>
-          <TouchableOpacity
-            style={styles.buttonLeft}
-            onPress={() => navigation.goBack()}
-          >
-            <Text
-              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
-            >
-              Back
-            </Text>
-          </TouchableOpacity>
+        <TouchableOpacity onPress={handleSubmit} style={styles.buttonRight}>
+          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+            {" "}
+            Submit{" "}
+          </Text>
+        </TouchableOpacity>
 
-          <TouchableOpacity onPress={handleSubmit} style={styles.buttonRight}>
-            <Text
-              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
-            >
-              {" "}
-              Submit{" "}
-            </Text>
-          </TouchableOpacity>
-
-          {/*         <TouchableOpacity
+        {/*         <TouchableOpacity
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
@@ -249,7 +267,7 @@ export default function AddScreen({ navigation }: AddScreenProps) {
           </Text>
         </TouchableOpacity> */}
 
-          {/*       <Button title="1" onPress={() => handleTypeSelect("1")} />
+        {/*       <Button title="1" onPress={() => handleTypeSelect("1")} />
 
       <Button title="2" onPress={() => handleTypeSelect("2")} />
 
@@ -261,64 +279,7 @@ export default function AddScreen({ navigation }: AddScreenProps) {
       />
 
       <Button title="Submit" onPress={handleSubmit} /> */}
-        </View>
       </View>
     </ScrollView>
   );
 }
-
-/**
- * This is the styling for the screen's UI.
- */
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    paddingBottom: 100,
-    backgroundColor: "#FFF5E6",
-  },
-
-  input: {
-    backgroundColor: "blue",
-    borderRadius: 10,
-    margin: 20,
-  },
-
-  bottomButtons: {
-    position: "absolute",
-    bottom: 20,
-    left: 20,
-    right: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    //backgroundColor: "black",
-  },
-
-  buttonLeft: {
-    flex: 1,
-    marginRight: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-
-  buttonRight: {
-    flex: 1,
-    marginLeft: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-
-  event: {
-    backgroundColor: "pink",
-  },
-  headerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  backButton: {
-    backgroundColor: "black",
-    borderRadius: 15,
-  },
-});

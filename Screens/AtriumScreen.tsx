@@ -8,6 +8,7 @@ import { RootStackParamList } from "../types";
 import { FontContext } from "../Context/fontContext";
 import { useContext } from "react";
 import { StyleSheet } from "react-native";
+import { styles } from "../styles";
 
 /**
  * This adds the screen to the navigation stack.
@@ -23,70 +24,43 @@ type AtriumScreenProps = NativeStackScreenProps<RootStackParamList, "Atrium">;
 export default function AtriumScreen({ navigation }: AtriumScreenProps) {
   const fontContext = useContext(FontContext);
   return (
-    <ScrollView>
-    <View>
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>Home Screen</Text>
+    <ScrollView
+      style={{ flex: 1, backgroundColor: "#FFFB84" }} // outer ScrollView style
+      contentContainerStyle={styles.innerContainer}
+    >
+      <Text style={styles.header}>Senior Learn</Text>
 
       <TouchableOpacity
-        style={[styles.Button, { backgroundColor: "black" }]}
+        style={styles.Button}
         onPress={() => navigation.navigate("Login")}
       >
         <Text
-          style={{
-            color: "white",
-            fontSize: fontContext?.fontSize || 16,
-            //backgroundColor: "black",
-          }}
+          style={[
+            styles.buttonText,
+            {
+              fontSize: fontContext?.fontSize || 16,
+            },
+          ]}
         >
-          Go to login
+          Sign in
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={[styles.Button, { backgroundColor: "black" }]}
+        style={styles.Button}
         onPress={() => navigation.navigate("BulletinChoice")}
       >
         <Text
-          style={{
-            color: "white",
-            fontSize: fontContext?.fontSize || 16,
-            //backgroundColor: "black",
-          }}
+          style={[
+            styles.buttonText,
+            {
+              fontSize: fontContext?.fontSize || 16,
+            },
+          ]}
         >
           Continue as guest
         </Text>
       </TouchableOpacity>
-
-      {/*       <TouchableOpacity
-        style={styles.Button}
-        onPress={() => navigation.navigate("Profile")}
-      >
-        <Text
-          style={{
-            color: "white",
-            fontSize: fontContext?.fontSize || 16,
-            backgroundColor: "black",
-          }}
-        >
-          Profile
-        </Text>
-      </TouchableOpacity>
- */}
-    </View>
     </ScrollView>
   );
 }
-
-/**
- * This contains the styling for the UI.
- */
-const styles = StyleSheet.create({
-  Button: {
-    
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    backgroundColor: "#FFF5E6",
-    borderRadius: 20,
-    marginVertical: 10
-  },
-});

@@ -32,7 +32,7 @@ type ProfileScreenProps = NativeStackScreenProps<RootStackParamList, "Profile">;
  * Makes URL readable.
  */
 
-const API_URL = "http://172.19.159.72:5143/api/profile";
+const API_URL = "http://192.168.1.244:5143/api/profile";
 
 /**
  * Defines functional component.

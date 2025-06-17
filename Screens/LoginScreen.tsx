@@ -22,6 +22,8 @@ import { ItemContext } from "../Context/context";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 import { logLogin, getLoginHistory } from "../logLogins";
+import { Image } from "react-native";
+import { styles } from "../styles";
 
 /**
  * This adds the screen to the navigation stack.
@@ -33,7 +35,7 @@ type LoginScreenProps = NativeStackScreenProps<RootStackParamList, "Login">;
  * This makes the URL easily handled and readable.
  */
 
-const API_URL = "http://172.19.159.72:5143/api/auth/sign-in";
+const API_URL = "http://192.168.1.244:5143/api/auth/sign-in";
 
 /**
  * This functional component takes navigation props and returns no specific value.  It manages state and context.
@@ -93,37 +95,27 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
     }
   };
 
-  /*  const login = async (name: string) => {
-
-
-  try {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log('Item created:', data);
-  } catch (error) {
-    console.error('Error creating item:', error);
-  } */
-
   /**
    * This is the user interface.
    */
   return (
-    <ScrollView>
-      <View>
-        <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-          Login Screen
-        </Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.innerContainer}>
+        <View style={styles.topHeader}>
+          
+          <TouchableOpacity onPress={() => navigation.navigate("Atrium")}>
+            <Image
+              source={require("../Logo2.png")} // or your image path
+              style={styles.logo}
+            />
+          </TouchableOpacity>
+
+          <Text
+            style={[styles.header, { fontSize: fontContext?.fontSize || 16 }]}
+          >
+            Senior Learn
+          </Text>
+        </View>
 
         <TextInput
           placeholder="Enter username"
@@ -139,78 +131,68 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
           style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
         />
 
-        <View style={styles.lowerButtons}>
-          <TouchableOpacity style={styles.buttonLeft} onPress={handleSubmit}>
-            <Text
-              style={{
-                color: "white",
-                fontSize: fontContext?.fontSize || 16,
-                backgroundColor: "black",
-                borderRadius: 15,
-                marginBottom: 15,
-              }}
+        <View style={styles.buttonsContainer}>
+          <View style={styles.centeredButtons}>
+            <TouchableOpacity
+              style={styles.skinnyButton}
+              onPress={handleSubmit}
             >
-              Submit
-            </Text>
+              <Text
+                style={{
+                  fontSize: fontContext?.fontSize || 16,
+                }}
+              >
+                Submit
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.skinnyButton}
+              onPress={() => navigation.navigate("Register")}
+            >
+              <Text
+                style={{
+                  fontSize: fontContext?.fontSize || 16,
+                }}
+              >
+                Register
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+
+
+
+<TouchableOpacity style = {styles.backButton} onPress={() => navigation.navigate("Atrium")}>
+            <Image
+              source={require("../Back02.png")} // or your image path
+              style={styles.logo}
+            />
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.buttonRight}
-            onPress={() => navigation.navigate("Register")}
+
+
+
+
+
+
+      {/*     <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}
           >
             <Text
               style={{
-                color: "white",
                 fontSize: fontContext?.fontSize || 16,
-                backgroundColor: "black",
-                borderRadius: 15,
-                marginBottom: 15,
+                textAlign: "center",
               }}
             >
-              Register
+              Back
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+
+
+
         </View>
-
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Text
-            style={{
-              fontSize: fontContext?.fontSize || 16,
-              textAlign: "center",
-              color: "white",
-            }}
-          >
-            Back
-          </Text>
-        </TouchableOpacity>
-
-        {/*       <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-        <Text
-          style={{
-            color: "white",
-            fontSize: fontContext?.fontSize || 16,
-            backgroundColor: "black",
-          }}
-        >
-          Settings
-        </Text>
-      </TouchableOpacity> */}
-
-        {/*       <Button title="Submit" onPress={handleSubmit} />
-
-      <Button
-        title="Register"
-        onPress={() => navigation.navigate("Register")}
-      />
-
-      <Button
-        title="Settings"
-        onPress={() => navigation.navigate("Settings")}
-      />
- */}
       </View>
     </ScrollView>
   );
@@ -220,7 +202,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
  * This is the styling for the UI.
  */
 
-const styles = StyleSheet.create({
+/* const styles = StyleSheet.create({
   tabs: {
     flexDirection: "row",
   },
@@ -281,3 +263,4 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
   },
 });
+ */

@@ -3,7 +3,14 @@
  */
 
 import React from "react";
-import { View, Text, Button, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  TextInput,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
 import { ItemContext } from "../Context/context";
@@ -13,6 +20,7 @@ import { useAuth } from "../Context/AuthContext";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native";
+import { styles } from "../styles";
 
 /**
  * This adds the screen to the navigation stack.
@@ -26,7 +34,7 @@ type EditOfficialScreenProps = NativeStackScreenProps<
 /**
  * This makes the URL readable.
  */
-const API_BASE = "http://172.19.159.72:5143/api/bulletins/official";
+const API_BASE = "http://192.168.1.244:5143/api/bulletins/official";
 
 /**
  * This functional component takes navigation props and route parameters. It returns the UI and manages state.
@@ -97,10 +105,9 @@ export default function EditOfficialScreen({
     }
   };
 
-
   /**
    * This function takes the ID as string.  It implements the delete method on the bulletin with the matching ID on the backend.
-   * @param id 
+   * @param id
    */
   const deleteItem = async (id: string) => {
     try {
@@ -123,148 +130,97 @@ export default function EditOfficialScreen({
     }
   };
 
-  /* 
-
-  const deleteItem = (idToDelete: string) => {
-    deleteOfficialBulletins(idToDelete);
-    navigation.navigate("OfficialBulletinsSummary");
-  }; */
-
   /**
-   * This is the user interface.  
+   * This is the user interface.
    */
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.headerRow}>
-        <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-          Official bulletin details
-        </Text>
+      <View style={styles.centerer}>
+        <View style={styles.headerRow}>
+          <View style={styles.topHeader}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.navigate("Login")}
+            >
+              <Image
+                source={require("../Back02.png")} // or your image path
+                style={styles.logo}
+              />
+            </TouchableOpacity>
 
-        {username && (
-          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.navigate("Atrium")}
+            >
+              <Image
+                source={require("../Logo2.png")} // or your image path
+                style={styles.logo}
+              />
+            </TouchableOpacity>
+
+            {username && (
+              <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => navigation.navigate("Profile")}
+              >
+                <Image
+                  source={require("../Profile.png")} // or your image path
+                  style={styles.logo}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
+        <View>
+
+          <View>
+          <Text
+            style={[
+              styles.headerText,
+              { fontSize: fontContext?.fontSize || 16 },
+            ]}
+          >
+            Official bulletin details
+          </Text>
+        </View>
+
+        <Text
+          style={[styles.headerText, { fontSize: fontContext?.fontSize || 16 }]}
+        >
+          {new Date(item.createdAt).toLocaleDateString()}
+        </Text>
+</View>
+        <TextInput
+        multiline = {true}
+          style={[styles.skinnyButton, { fontSize: fontContext?.fontSize || 16 }]}
+          value={title}
+          onChangeText={setTitle}
+        ></TextInput>
+
+        <TextInput
+        multiline = {true}
+          style={[styles.skinnyButton, { fontSize: fontContext?.fontSize || 16 }]}
+          value={content}
+          onChangeText={setContent}
+        ></TextInput>
+
+        <View style={styles.bottomButtons}>
+          <TouchableOpacity style={styles.buttonLeft} onPress={handleSubmit}>
             <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-              ID: {username}
+              Submit
             </Text>
           </TouchableOpacity>
-        )}
+
+          <TouchableOpacity
+            style={styles.buttonRight}
+            onPress={() => deleteItem(item.id)}
+          >
+            <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+              Delete
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>{item.id}</Text>
-
-      {/*      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-        {item.title}
-      </Text>
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-        {item.content}
-      </Text> */}
-
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-        {new Date(item.createdAt).toLocaleDateString()}
-      </Text>
-
-      <TextInput
-        style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
-        value={title}
-        onChangeText={setTitle}
-      ></TextInput>
-
-      <TextInput
-        style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
-        value={content}
-        onChangeText={setContent}
-      ></TextInput>
-
-      <View style={styles.bottomButtons}>
-        <TouchableOpacity style={styles.buttonLeft} onPress={handleSubmit}>
-          <Text style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}>Submit</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.buttonRight}
-          onPress={() => deleteItem(item.id)}
-        >
-          <Text style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}>Delete</Text>
-        </TouchableOpacity>
-      </View>
-
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Text
-          style={{ fontSize: fontContext?.fontSize || 16, textAlign: "center", color: "white" }}
-        >
-          Back
-        </Text>
-      </TouchableOpacity>
-
-      {/* 
-      <Button
-        title="Submit"
-        onPress={() => {
-          handleSubmit();
-        }}
-      />
-
-      <Button
-        title="Delete"
-        onPress={() => {
-          deleteItem(item.id);
-        }}
-      />
- */}
     </ScrollView>
   );
 }
-
-/**
- * This is the UI styling.
- */
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    paddingBottom: 100,
-    backgroundColor: "#FFF5E6",
-  },
-
-  input: {
-    backgroundColor: "blue",
-    color: "white",
-    borderRadius: 10,
-    margin: 20,
-  },
-
-  bottomButtons: {
-    marginTop: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-
-  buttonLeft: {
-    flex: 1,
-    marginRight: 10,
-    borderRadius: 10,
-    backgroundColor: "black"
-  },
-
-  buttonRight: {
-    flex: 1,
-    marginLeft: 10,
-    borderRadius: 10,
-    backgroundColor: "black"
-  },
-
-  headerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  backButton: {
-    marginTop: 20,
-    marginLeft: 10,
-    borderRadius: 10,
-    backgroundColor: "black"
-  },
-});

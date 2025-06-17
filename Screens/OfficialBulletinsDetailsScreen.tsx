@@ -33,7 +33,7 @@ type OfficialBulletinsDetailsScreenProps = NativeStackScreenProps<
  * This makes the API readable.
  */
 
-const API_URL = "http://172.19.159.72:5143/api/bulletins/official";
+const API_URL = "http://192.168.1.244:5143/api/bulletins/official";
 
 /**
  * This functional commponent renders the screen UI.
@@ -181,7 +181,7 @@ export default function OfficialBulletinsDetailsScreen({
         {token && role === "Administrator" && (
           <TouchableOpacity
             style={[styles.buttonRight, { marginTop: 30 }]}
-            onPress={() => deleteItem("item.id")}
+            onPress={() => deleteItem(item.id)}
           >
             <Text
               style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}

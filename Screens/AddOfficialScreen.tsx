@@ -3,7 +3,14 @@
  */
 
 import React from "react";
-import { View, Text, Button, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  TextInput,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList, IItem, IOfficialBulletin } from "../types";
 import { useState } from "react";
@@ -14,11 +21,12 @@ import { FontContext } from "../Context/fontContext";
 import { useAuth } from "../Context/AuthContext";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { styles } from "../styles";
 
 /**
  * This constant sets the backend API to a more readable format.
  */
-const API_URL = "http://172.19.159.72:5143/api/bulletins/official";
+const API_URL = "http://192.168.1.244:5143/api/bulletins/official";
 
 /**
  * This code adds the screen to the navigation stack.
@@ -101,38 +109,47 @@ export default function AddOfficialScreen({
    */
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.container}>
         <View style={styles.headerRow}>
-          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-            Admin Add Screen
-          </Text>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Image
+              source={require("../Back02.png")} // or your image path
+              style={styles.logo}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.navigate("Atrium")}
+          >
+            <Image
+              source={require("../Logo2.png")} // or your image path
+              style={styles.logo}
+            />
+          </TouchableOpacity>
 
           {username && (
-            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-              <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-                ID: {username}
-              </Text>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.navigate("Profile")}
+            >
+              <Image
+                source={require("../Profile.png")} // or your image path
+                style={styles.logo}
+              />
             </TouchableOpacity>
           )}
         </View>
-        {/*  <TextInput
-        
-        placeholder="Enter id"
-        onChangeText={newText => setId(newText)}
-      
-      />
- */}
 
-        {/*  <TextInput
-        
-        placeholder="Enter type"
-        onChangeText={newText => setType(newText)}
-      
-      />
-
-
- */}
+        <View style={styles.headerRow}>
+          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+            Post official bulletin
+          </Text>
+        </View>
 
         <TextInput
           placeholder="Enter title"
@@ -146,122 +163,10 @@ export default function AddOfficialScreen({
           onChangeText={(newText) => setContent(newText)}
         />
 
-        {/* 
-
-
-      <TouchableOpacity
-        onPress={handleSubmit}
-        style={{ backgroundColor: "black" }}
-      >
-        <Text style={{ color: "white", fontSize: fontContext?.fontSize || 16 }}>
-          Add
-        </Text>
-      </TouchableOpacity>
-
-
-
-
-
- */}
-
-        <View style={styles.bottomButtons}>
-          <TouchableOpacity
-            style={styles.buttonLeft}
-            onPress={() => navigation.goBack()}
-          >
-            <Text
-              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
-            >
-              Back
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.buttonRight} onPress={handleSubmit}>
-            <Text
-              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
-            >
-              Submit
-            </Text>
-          </TouchableOpacity>
-
-          {/* <Button title="Submit" onPress={handleSubmit} /> */}
-        </View>
-
-        {/* 
-
-
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Text
-          style={{
-            fontSize: fontContext?.fontSize || 16,
-            textAlign: "center",
-            color: "white",
-          }}
-        >
-          Back
-        </Text>
-      </TouchableOpacity>
-
-
- */}
+        <TouchableOpacity style={styles.buttonRight} onPress={handleSubmit}>
+          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>Submit</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
 }
-
-/**
- * This provides the styling for the above screen component.
- */
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    paddingBottom: 100,
-    backgroundColor: "#FFF5E6",
-  },
-
-  input: {
-    backgroundColor: "blue",
-    borderRadius: 10,
-    margin: 20,
-  },
-
-  bottomButtons: {
-    position: "absolute",
-    bottom: 20,
-    left: 20,
-    right: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-
-  buttonLeft: {
-    flex: 1,
-    marginRight: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-
-  buttonRight: {
-    flex: 1,
-    marginLeft: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-
-  headerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-
-  backButton: {
-    backgroundColor: "black",
-    borderRadius: 15,
-  },
-});

@@ -41,7 +41,7 @@ const categoryEnumMap: Record<string, number> = {
  * This makes the URL easier to handle.
  */
 
-const API_URL = "http://172.19.159.72:5143/api/bulletins/member";
+const API_URL = "http://192.168.1.244:5143/api/bulletins/member";
 
 /**
  * This adds the screen to the navigation stack.

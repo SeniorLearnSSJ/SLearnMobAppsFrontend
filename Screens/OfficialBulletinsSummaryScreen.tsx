@@ -11,6 +11,7 @@ import {
   Button,
   ActivityIndicator,
   ScrollView,
+  Image,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { IOfficialBulletin, RootStackParamList } from "../types";
@@ -21,6 +22,7 @@ import { IItem, ItemContextType } from "../types";
 import { useAuth } from "../Context/AuthContext";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
+import { styles } from "../styles";
 
 /**
  * Adds the screen to navigation.
@@ -34,7 +36,7 @@ type Props = NativeStackScreenProps<
  * Makes URL readable.
  */
 
-const API_URL = "http://172.19.159.72:5143/api/bulletins/official";
+const API_URL = "http://192.168.1.244:5143/api/bulletins/official";
 
 /**
  * Screen component
@@ -177,7 +179,7 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
 
   const renderItem = ({ item }: { item: IOfficialBulletin }) => (
     <TouchableOpacity
-      style={styles.bulletinButton}
+      style={styles.listItem}
       onPress={() => navigation.navigate("OfficialBulletinsDetails", { item })}
     >
       <Text
@@ -192,9 +194,9 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
    * This returns the UI.
    */
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={{ flex: 1 }}>
-        {username && (
+        {/*         {username && (
           <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
             <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
               <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
@@ -202,10 +204,46 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
           </View>
-        )}
+
+          
+        )} */}
+
+        <View style={styles.headerRow}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Image
+              source={require("../Back02.png")} // or your image path
+              style={styles.logo}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.navigate("Atrium")}
+          >
+            <Image
+              source={require("../Logo2.png")} // or your image path
+              style={styles.logo}
+            />
+          </TouchableOpacity>
+
+          {username && (
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.navigate("Profile")}
+            >
+              <Image
+                source={require("../Profile.png")} // or your image path
+                style={styles.logo}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
 
         <Text style={{ fontSize: fontContext?.fontSize || 16, color: "black" }}>
-          Current role: {role}
+          Official bulletins
         </Text>
 
         <Text style={{ fontSize: fontContext?.fontSize || 16, color: "black" }}>
@@ -215,6 +253,7 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
           data={todayBulletins}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
+          style={styles.list}
           ListEmptyComponent={
             <Text
               style={{ fontSize: fontContext?.fontSize || 16, color: "black" }}
@@ -228,47 +267,34 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
           Earlier bulletins
         </Text>
         <FlatList
-          style={styles.list}
+          //style={styles.skinnyButton}
           data={earlierBulletins}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           ListEmptyComponent={<Text>No bulletins</Text>}
+          style={styles.list}
         />
 
-        <View style={styles.bottomButtons}>
+        {token && role === "Administrator" && (
           <TouchableOpacity
-            style={[styles.buttonLeft, { marginTop: 30 }]}
-            onPress={() => navigation.navigate("BulletinChoice")}
+            style={[styles.addButton, { marginTop: 30 }]}
+            onPress={() => navigation.navigate("AddOfficial")}
           >
             <Text
-              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
+              style={{
+                fontSize: fontContext?.fontSize || 16,
+              }}
             >
-              Back
+              Add
             </Text>
           </TouchableOpacity>
 
-          {token && role === "Administrator" && (
-            <TouchableOpacity
-              style={[styles.buttonLeft, { marginTop: 30 }]}
-              onPress={() => navigation.navigate("AddOfficial")}
-            >
-              <Text
-                style={{
-                  fontSize: fontContext?.fontSize || 16,
-                  color: "white",
-                }}
-              >
-                Add
-              </Text>
-            </TouchableOpacity>
-
-            /* 
+          /* 
         <Button
           title="Add"
           onPress={() => navigation.navigate("AddOfficial")}
         /> */
-          )}
-        </View>
+        )}
       </View>
     </ScrollView>
   );
@@ -319,7 +345,7 @@ export default OfficialBulletinsSummary; */
 /**
  * This is styling.
  */
-const styles = StyleSheet.create({
+/* const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
@@ -378,3 +404,4 @@ const styles = StyleSheet.create({
     color: "white",
   },
 });
+ */
