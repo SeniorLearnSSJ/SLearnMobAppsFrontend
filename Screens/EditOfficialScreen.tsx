@@ -34,7 +34,7 @@ type EditOfficialScreenProps = NativeStackScreenProps<
 /**
  * This makes the URL readable.
  */
-const API_BASE = "http://192.168.1.244:5143/api/bulletins/official";
+const API_BASE = "http://172.19.159.72:5143/api/bulletins/official";
 
 /**
  * This functional component takes navigation props and route parameters. It returns the UI and manages state.
