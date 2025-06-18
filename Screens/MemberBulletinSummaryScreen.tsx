@@ -15,7 +15,9 @@ import {
   TouchableOpacity,
   Button,
   ActivityIndicator,
-  TextInput, ScrollView
+  TextInput,
+  ScrollView,
+  Image,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
@@ -26,7 +28,7 @@ import { IItem, ItemContextType } from "../types";
 import { Trie, TrieNode } from "../Trie";
 import { useAuth } from "../Context/AuthContext";
 import { MemberBulletinCategory } from "../types";
-
+import { styles } from "../styles";
 /**
  * This enumerable mapper maps the enums from string to number.
  */
@@ -213,7 +215,7 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
     <TouchableOpacity
       onPress={() => navigation.navigate("MemberBulletinDetails", { item })}
     >
-      <View>
+      <View style={styles.listItem}>
         <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
           {item.title}
         </Text>
@@ -234,124 +236,92 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
    */
   return (
     <ScrollView>
-    <View style={{ flex: 1 }}>
-  
-      {username && (
-        <View style = {{flexDirection: "row", justifyContent: "flex-end"}}>
-          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-            <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-              ID: {username}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
-
-      <TabMenu
-        tabs={tabs}
-        selectedTab={selectedTab}
-        setSelectedTab={setSelectedTab}
-      />
-      <TextInput
-        style={{ fontSize: fontContext?.fontSize || 16 }}
-        placeholder="Search bulletins"
-        value={input}
-        onChangeText={setInput}
-      />
-
-      {suggestion.length > 0 ? (
-        <FlatList
-          data={suggestion}
-          keyExtractor={(item) => item}
-          renderItem={renderSuggestions}
-        />
-      ) : (
-        <FlatList
-          data={filteredBulletins}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
-      )}
-
-      <View style={styles.bottomButtons}>
-        <TouchableOpacity
-          style={[styles.buttonLeft, { marginTop: 30 }]}
-          onPress={() => navigation.goBack()}
-        >
-          <Text
-            style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
-          >
-            Back
-          </Text>
-        </TouchableOpacity>
-
-        {token && (role === "Member" || role === "Administrator") && (
+      <View style = {styles.container}>
+      <View style={{ flex: 1 }}>
+        <View style={styles.headerRow}>
           <TouchableOpacity
-            style={[styles.buttonRight, { marginTop: 30 }]}
-            onPress={() => navigation.navigate("Add")}
+            style={styles.backButton}
+            onPress={() => navigation.navigate("BulletinChoice")}
           >
-            <Text
-              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
-            >
-              Add
-            </Text>
+            <Image
+              source={require("../Back02.png")} // or your image path
+              style={styles.logo}
+            />
           </TouchableOpacity>
 
-          // <Button title="Add" onPress={() => navigation.navigate("Add")} />
-        )}
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.navigate("Atrium")}
+          >
+            <Image
+              source={require("../Logo2.png")} // or your image path
+              style={styles.logo}
+            />
+          </TouchableOpacity>
+
+          {username && (
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.navigate("Profile")}
+            >
+              <Image
+                source={require("../Profile.png")} // or your image path
+                style={styles.logo}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+
+        <View style={styles.shiftCenter}>
+          <TabMenu
+            tabs={tabs}
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
+          />
+          <TextInput
+            style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
+            placeholder="Search bulletins"
+            value={input}
+            onChangeText={setInput}
+          />
+
+          {suggestion.length > 0 ? (
+            <FlatList
+              data={suggestion}
+              keyExtractor={(item) => item}
+              renderItem={renderSuggestions}
+            />
+          ) : (
+            <FlatList
+              data={filteredBulletins}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+            />
+          )}
+
+          <View style={styles.bottomButtons}>
+            {token && (role === "Member" || role === "Administrator") && (
+              <TouchableOpacity
+                style={[styles.buttonRight, { marginTop: 30 }]}
+                onPress={() => navigation.navigate("Add")}
+              >
+                <Text
+                  style={{
+                    fontSize: fontContext?.fontSize || 16
+                  }}
+                >
+                  Add
+                </Text>
+              </TouchableOpacity>
+
+            
+            )}
+          </View>
+        </View>
       </View>
-    </View>
+      </View>
     </ScrollView>
   );
 };
 
 export default MemberBulletinSummary;
-
-/**
- * This is the styling.
- */
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    paddingBottom: 100,
-    backgroundColor: "#FFF5E6",
-  },
-
-  input: {
-    backgroundColor: "blue",
-    borderRadius: 10,
-    margin: 20,
-  },
-
-  bottomButtons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 30,
-  },
-
-  buttonLeft: {
-    flex: 1,
-    marginRight: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-
-  buttonRight: {
-    flex: 1,
-    marginLeft: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-
-  headerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-
-  backButton: {
-    backgroundColor: "black",
-    borderRadius: 15,
-  },
-});

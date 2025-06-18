@@ -75,9 +75,11 @@ export default function BulletinChoiceScreen({
           )}
         </View>
 
-        <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-          Would you like to read:
-        </Text>
+        <View style={styles.shiftCenter}>
+          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+            Would you like to read:
+          </Text>
+        </View>
 
         <View style={styles.centerer}>
           <TouchableOpacity

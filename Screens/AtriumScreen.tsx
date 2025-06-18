@@ -25,7 +25,7 @@ export default function AtriumScreen({ navigation }: AtriumScreenProps) {
   const fontContext = useContext(FontContext);
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: "#FFFB84" }} // outer ScrollView style
+      style={{ flex: 1, backgroundColor: "#FFFB84" }} 
       contentContainerStyle={styles.innerContainer}
     >
       <Text style={styles.header}>Senior Learn</Text>

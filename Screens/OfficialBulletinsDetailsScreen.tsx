@@ -8,8 +8,10 @@ import {
   Text,
   Button,
   ActivityIndicator,
-  TouchableOpacity, ScrollView
+  TouchableOpacity,
+  ScrollView,
 } from "react-native";
+import { Image } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { IOfficialBulletin, RootStackParamList } from "../types";
 import { ItemContext } from "../Context/context";
@@ -19,6 +21,8 @@ import { ListNode, DoublyLinkedList } from "../helper";
 import { useAuth } from "../Context/AuthContext";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
+import { styles } from "../styles";
+/**
 
 /**
  * This adds the screen to the navigation stack.
@@ -124,192 +128,122 @@ export default function OfficialBulletinsDetailsScreen({
    */
   return (
     <ScrollView>
-    <View>
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-        Official bulletin details
-      </Text>
-
-      {username && (
-        <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-            <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-              ID: {username}
-            </Text>
+      <View style={styles.colorPurple}>
+        <View style={styles.headerRow}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}
+          >
+            <Image
+              source={require("../Back02.png")} // or your image path
+              style={styles.logo}
+            />
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.navigate("OfficialBulletinsSummary")}
+          >
+            <Image
+              source={require("../Logo2.png")} // or your image path
+              style={styles.logo}
+            />
+          </TouchableOpacity>
+
+          {username && (
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.navigate("Profile")}
+            >
+              <Image
+                source={require("../Profile.png")} // or your image path
+                style={styles.logo}
+              />
+            </TouchableOpacity>
+          )}
         </View>
-      )}
 
-      {/* 
-      <Text>{item.datetime.toDateString()}</Text> */}
+        <View style={styles.shiftCenter}>
+          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+            {new Date(item.createdAt).toDateString()}
+          </Text>
 
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-        {new Date(item.createdAt).toDateString()}
-      </Text>
+          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+            {" "}
+            {item.title}
+          </Text>
+          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+            {" "}
+            {item.content}
+          </Text>
 
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>{item.id}</Text>
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-        {" "}
-        {item.title}
-      </Text>
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-        {" "}
-        {item.content}
-      </Text>
+          <View style={styles.bottomButtons}>
+            {token && role === "Administrator" && (
+              <TouchableOpacity
+                style={[styles.buttonLeft, { marginTop: 30 }]}
+                onPress={() => navigation.navigate("EditOfficial", { item })}
+              >
+                <Text
+                  style={{
+                    fontSize: fontContext?.fontSize || 16,
+                  }}
+                >
+                  Edit
+                </Text>
+              </TouchableOpacity>
+            )}
 
-      <View style={styles.bottomButtons}>
-        {token && role === "Administrator" && (
-          <TouchableOpacity
-            style={[styles.buttonLeft, { marginTop: 30 }]}
-            onPress={() => navigation.navigate("EditOfficial", { item })}
-          >
-            <Text
-              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
+            {token && role === "Administrator" && (
+              <TouchableOpacity
+                style={[styles.buttonRight, { marginTop: 30 }]}
+                onPress={() => deleteItem(item.id)}
+              >
+                <Text
+                  style={{
+                    fontSize: fontContext?.fontSize || 16,
+                  }}
+                >
+                  Delete
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+
+          <View style={styles.bottomButtons}>
+            <TouchableOpacity
+              style={[
+                styles.buttonLeft,
+                !canPrev && styles.buttonDisabled,
+                { marginTop: 30 },
+              ]}
+              onPress={() =>
+                currentNode?.prev && handleNavigate(currentNode.prev)
+              }
+              disabled={!currentNode || !currentNode.prev}
             >
-              Edit
-            </Text>
-          </TouchableOpacity>
+              <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+                Previous
+              </Text>
+            </TouchableOpacity>
 
-          /* 
-
-        <Button
-          title="Edit"
-          onPress={() => navigation.navigate("EditOfficial", { item })}
-        />
- */
-        )}
-
-        {token && role === "Administrator" && (
-          <TouchableOpacity
-            style={[styles.buttonRight, { marginTop: 30 }]}
-            onPress={() => deleteItem(item.id)}
-          >
-            <Text
-              style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
+            <TouchableOpacity
+              style={[
+                styles.buttonRight,
+                !canNext && styles.buttonDisabled,
+                { marginTop: 30 },
+              ]}
+              disabled={!currentNode || !currentNode.next}
+              onPress={() =>
+                currentNode?.next && handleNavigate(currentNode.next)
+              }
             >
-              Delete
-            </Text>
-          </TouchableOpacity>
-
-          /*         <Button
-          title="Delete"
-          onPress={() => {
-            deleteItem(item.id);
-          }}
-        />
- */
-        )}
+              <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+                Next
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-
-      <View style={styles.bottomButtons}>
-        <TouchableOpacity
-          style={[
-            styles.buttonLeft,
-            !canPrev && styles.buttonDisabled,
-            { marginTop: 30 },
-          ]}
-          onPress={() => currentNode?.prev && handleNavigate(currentNode.prev)}
-          disabled={!currentNode || !currentNode.prev}
-        >
-          <Text
-            style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
-          >
-            Previous
-          </Text>
-        </TouchableOpacity>
-
-        {/*    <Button
-        title="Previous"
-        disabled={!currentNode || !currentNode.prev}
-        onPress={() => currentNode?.prev && handleNavigate(currentNode.prev)}
-      />
- */}
-
-        <TouchableOpacity
-          style={[
-            styles.buttonRight,
-            !canNext && styles.buttonDisabled,
-            { marginTop: 30 },
-          ]}
-          disabled={!currentNode || !currentNode.next}
-          onPress={() => currentNode?.next && handleNavigate(currentNode.next)}
-        >
-          <Text
-            style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
-          >
-            Next
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.bottomButtons}>
-        <TouchableOpacity
-          style={styles.buttonLeft}
-          onPress={() => navigation.navigate("OfficialBulletinsSummary")}
-        >
-          <Text
-            style={{ fontSize: fontContext?.fontSize || 16, color: "white" }}
-          >
-            Back to summary
-          </Text>
-        </TouchableOpacity>
-
-        {/*       <Button
-        title="Next"
-        disabled={!currentNode || !currentNode.next}
-        onPress={() => currentNode?.next && handleNavigate(currentNode.next)}
-      /> */}
-      </View>
-    </View>
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    paddingBottom: 100,
-    backgroundColor: "#FFF5E6",
-  },
-
-  input: {
-    backgroundColor: "blue",
-    borderRadius: 10,
-    margin: 20,
-  },
-
-  bottomButtons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 30,
-  },
-
-  buttonLeft: {
-    flex: 1,
-    marginRight: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-
-  buttonRight: {
-    flex: 1,
-    marginLeft: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-
-  headerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-
-  backButton: {
-    backgroundColor: "black",
-    borderRadius: 15,
-  },
-  buttonDisabled: {
-    backgroundColor: "grey",
-  },
-});

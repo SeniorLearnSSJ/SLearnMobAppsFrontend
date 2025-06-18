@@ -7,6 +7,10 @@ export const styles = StyleSheet.create({
     fontWeight: 800,
     textAlign: "center",
   },
+  colorPurple: {
+    backgroundColor: "#FFFB84",
+    color: "purple",
+  },
   headerRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -65,7 +69,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     textAlign: "center",
     paddingHorizontal: 10,
-    paddingVertical: 5
+    paddingVertical: 5,
   },
 
   logo: {
@@ -77,11 +81,19 @@ export const styles = StyleSheet.create({
 
   input: {
     color: "black",
-    backgroundColor: "lightgrey",
+    backgroundColor: "white",
     margin: 10,
     borderRadius: 25,
   },
 
+  fatInput: {
+    color: "black",
+    backgroundColor: "white",
+    margin: 10,
+    borderRadius: 25,
+    height: 250,
+    width: 250,
+  },
   backButton: {
     marginTop: 20,
     marginLeft: 10,
@@ -152,7 +164,8 @@ export const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 10
+    marginLeft: 10,
+    marginTop: 10
   },
 
   buttonLeft: {
@@ -164,7 +177,8 @@ export const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 10
+    marginRight: 10,
+    marginTop: 10
   },
 
   event: {
@@ -179,7 +193,7 @@ export const styles = StyleSheet.create({
 
   bottomButtons: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
   },
   centerer: {
     width: "90%",
@@ -191,4 +205,37 @@ export const styles = StyleSheet.create({
   headerText: {
     justifyContent: "center",
   },
+  shiftCenter: {
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  picker: {
+    color: "black",
+    backgroundColor: "white",
+  },
+  selectedText: { color: "purple", backgroundColor: "white", fontWeight: 200 },
+  buttonDisabled: {
+    color: "white",
+    backgroundColor: "grey",
+  },
+  rightContainer: {
+    width: 320,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    marginTop: 20,
+    paddingRight: 16,
+  },
+
+  logoutButton: {
+    alignSelf: "flex-end",
+    color: "black",
+    backgroundColor: "lightgrey",
+    alignItems: "flex-end",
+    borderRadius: 10
+  },
+
+  rowButtons:{
+    flexDirection: "row"
+  }
 });

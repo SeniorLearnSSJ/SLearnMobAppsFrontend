@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     fontWeight: "bold",
-    color: "blue",
+    color: "purple",
   },
   tabText: {
     fontWeight: "normal",

@@ -57,11 +57,6 @@ export default function AddOfficialScreen({
   const { token } = useAuth();
   const { username } = useAuth();
 
-  /* const [officialBulletins, setOfficialBulletins] = useState<
-    IOfficialBulletin[]
-  >([]);
-  const [loading, setLoading] = useState(true); */
-
   /**
    * This is a function that validates data submitted via a form.  It validates such things as field entries and tokens and navigates away to another screen on form submission.
    */
@@ -114,7 +109,7 @@ export default function AddOfficialScreen({
         <View style={styles.headerRow}>
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("OfficialBulletinsSummary")}
           >
             <Image
               source={require("../Back02.png")} // or your image path

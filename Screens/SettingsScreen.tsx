@@ -12,6 +12,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
@@ -28,6 +29,7 @@ import { toggleFromFontSize } from "../toggleFont";
 import { FontContext } from "../Context/fontContext";
 import { enableFreeze, enableScreens } from "react-native-screens";
 import { StyleSheet } from "react-native";
+import { styles } from "../styles";
 
 /**
  * Adds screen to navigation stack.
@@ -180,151 +182,133 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
    * UI
    */
   return (
-    <ScrollView>
+    <ScrollView style={styles.colorPurple}>
       <SafeAreaView>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-            Settings screen
-          </Text>
+        <View style={styles.shiftCenter}>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+              Settings screen
+            </Text>
+          </View>
 
-          {username && (
-            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-              <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-                <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-                  ID: {username}
+          <View style={styles.headerRow}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}
+            >
+              <Image
+                source={require("../Back02.png")} // or your image path
+                style={styles.logo}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.navigate("Profile")}
+            >
+              <Image
+                source={require("../Logo2.png")} // or your image path
+                style={styles.logo}
+              />
+            </TouchableOpacity>
+
+            {username && (
+              <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => navigation.navigate("Profile")}
+              >
+                <Image
+                  source={require("../Profile.png")} // or your image path
+                  style={styles.logo}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
+
+          <View style={{ margin: 20 }}>
+            <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+              Font size
+            </Text>
+
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                style={[
+                  styles.input,
+                  { paddingVertical: 10, paddingHorizontal: 20 },
+                ]}
+                onPress={() => handleSubmitFont(16)}
+              >
+                <Text
+                  style={{
+                    fontSize: fontContext?.fontSize || 16,
+                  }}
+                >
+                  16
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[
+                  styles.input,
+                  { paddingVertical: 10, paddingHorizontal: 20 },
+                ]}
+                onPress={() => handleSubmitFont(20)}
+              >
+                <Text
+                  style={{
+                    fontSize: fontContext?.fontSize || 16,
+                  }}
+                >
+                  20
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[
+                  styles.input,
+                  { paddingVertical: 10, paddingHorizontal: 20 },
+                ]}
+                onPress={() => handleSubmitFont(24)}
+              >
+                <Text
+                  style={{
+                    fontSize: fontContext?.fontSize || 16,
+                  }}
+                >
+                  24
                 </Text>
               </TouchableOpacity>
             </View>
-          )}
-        </View>
-
-        <View style={{ margin: 20 }}>
-          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-            Font size
-          </Text>
-
-          <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity
-              style={[
-                styles.input,
-                { paddingVertical: 10, paddingHorizontal: 20 },
-              ]}
-              onPress={() => handleSubmitFont(16)}
+          </View>
+          <View style={{ margin: 20 }}>
+            <Text
+              style={{
+                marginBottom: 20,
+                fontSize: fontContext?.fontSize || 16,
+              }}
             >
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: fontContext?.fontSize || 16,
-                  //backgroundColor: "black",
-                }}
-              >
-                16
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[
-                styles.input,
-                { paddingVertical: 10, paddingHorizontal: 20 },
-              ]}
-              onPress={() => handleSubmitFont(20)}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: fontContext?.fontSize || 16,
-                  // backgroundColor: "black",
-                }}
-              >
-                20
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[
-                styles.input,
-                { paddingVertical: 10, paddingHorizontal: 20 },
-              ]}
-              onPress={() => handleSubmitFont(24)}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: fontContext?.fontSize || 16,
-                  //backgroundColor: "black",
-                }}
-              >
-                24
-              </Text>
-            </TouchableOpacity>
+              Dark mode
+            </Text>
+            <BrightnessSwitch
+              value={isDarkMode}
+              onValueChange={setIsDarkMode}
+              fontSize={fontContext?.fontSize || 16}
+            />
           </View>
 
-          {/* 
-
-
-        <Button title="16" onPress={() => handleSubmitFont(16)}></Button>
-        <Button title="20" onPress={() => handleSubmitFont(20)}></Button>
-        <Button title="24" onPress={() => handleSubmitFont(24)}></Button>
- */}
-        </View>
-        <View style={{ margin: 20 }}>
-          <Text
-            style={{ marginBottom: 20, fontSize: fontContext?.fontSize || 16 }}
-          >
-            Dark mode
-          </Text>
-          <BrightnessSwitch
-            value={isDarkMode}
-            onValueChange={setIsDarkMode}
-            fontSize={fontContext?.fontSize || 16}
-          />
-        </View>
-
-        <View style={{ marginBottom: 20 }}>
-          <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-            Notifications
-          </Text>
-          <NotificationsSwitch
-            value={notifications}
-            onValueChange={setNotifications}
-            fontSize={fontContext?.fontSize || 16}
-          />
-        </View>
-
-        <View style={styles.bottomButtons}>
-          <TouchableOpacity
-            style={styles.buttonLeft}
-            onPress={() => navigation.goBack()}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontSize: fontContext?.fontSize || 16,
-                //backgroundColor: "black",
-              }}
-            >
-              Back
+          <View style={{ marginBottom: 20 }}>
+            <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
+              Notifications
             </Text>
-          </TouchableOpacity>
-
-          {/*         <TouchableOpacity style={styles.buttonRight} onPress={logout}>
-            <Text
-              style={{
-                color: "white",
-                fontSize: fontContext?.fontSize || 16,
-                // backgroundColor: "black",
-              }}
-            >
-              Logout
-            </Text>
-          </TouchableOpacity>
-
- */}
+            <NotificationsSwitch
+              value={notifications}
+              onValueChange={setNotifications}
+              fontSize={fontContext?.fontSize || 16}
+            />
+          </View>
         </View>
-
-        {/*       <View>
-        <Button title="Logout" onPress={logout} />
-      </View> */}
       </SafeAreaView>
     </ScrollView>
   );
@@ -334,7 +318,8 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
  * Styling
  */
 
-const styles = StyleSheet.create({
+{
+  /* const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
@@ -398,3 +383,5 @@ const styles = StyleSheet.create({
     color: "white",
   },
 });
+ */
+}

@@ -196,22 +196,10 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={{ flex: 1 }}>
-        {/*         {username && (
-          <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-              <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-                ID: {username}
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          
-        )} */}
-
         <View style={styles.headerRow}>
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("BulletinChoice")}
           >
             <Image
               source={require("../Back02.png")} // or your image path
@@ -221,7 +209,7 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
 
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => navigation.navigate("Atrium")}
+            onPress={() => navigation.navigate("OfficialBulletinsSummary")}
           >
             <Image
               source={require("../Logo2.png")} // or your image path
@@ -288,12 +276,6 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
               Add
             </Text>
           </TouchableOpacity>
-
-          /* 
-        <Button
-          title="Add"
-          onPress={() => navigation.navigate("AddOfficial")}
-        /> */
         )}
       </View>
     </ScrollView>
@@ -301,107 +283,3 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
 };
 
 export default OfficialBulletinsSummary;
-
-/*   const tabs = [1, 2, 3];
-  const [selectedTab, setSelectedTab] = useState(tabs[0]);
-
-  if (!context) {
-    return <Text> Loading ...</Text>;
-  }
-
-    const { bulletins } = context;
-
-    const filteredBulletins = bulletins.filter((item) => item.type === selectedTab)
-
-  const renderItem = ({ item }: { item: { id: string; title: string; type: number } }) => (
-    <TouchableOpacity
-      onPress={() => navigation.navigate("MemberBulletinDetails", { item })}
-    >
-      <View>
-        <Text>{item.title}</Text>
-      </View>
-    </TouchableOpacity>
-  );
-
-  return (
-   <View style={{ flex: 1 }}>
-<TabMenu tabs = {tabs} selectedTab = {selectedTab} setSelectedTab = {setSelectedTab}/>
-
-<FlatList
-data = {filteredBulletins}
-renderItem = {renderItem}
-keyExtractor = {(item) => item.id}/>
-
- <Button title="Add" onPress={() => navigation.navigate("Add")} />
-
-
-    </View>
-  )
-}
-
-
-export default OfficialBulletinsSummary; */
-
-/**
- * This is styling.
- */
-/* const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    paddingBottom: 100,
-    backgroundColor: "#FFF5E6",
-  },
-
-  list: {},
-
-  input: {
-    backgroundColor: "blue",
-    borderRadius: 10,
-    margin: 20,
-  },
-
-  bottomButtons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 30,
-  },
-
-  buttonLeft: {
-    flex: 1,
-    marginRight: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-
-  buttonRight: {
-    flex: 1,
-    marginLeft: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-
-  headerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-
-  backButton: {
-    backgroundColor: "black",
-    borderRadius: 15,
-  },
-  buttonDisabled: {
-    backgroundColor: "grey",
-  },
-  bulletinButton: {
-    backgroundColor: "blue",
-    borderRadius: 15,
-    marginBottom: 10,
-  },
-  bulletinText: {
-    color: "white",
-  },
-});
- */

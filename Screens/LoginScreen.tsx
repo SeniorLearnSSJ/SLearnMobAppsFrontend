@@ -21,7 +21,7 @@ import { useAuth } from "../Context/AuthContext";
 import { ItemContext } from "../Context/context";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
-import { logLogin, getLoginHistory } from "../logLogins";
+//import { logLogin, getLoginHistory } from "../logLogins";
 import { Image } from "react-native";
 import { styles } from "../styles";
 
@@ -59,12 +59,12 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   const [password, setPassword] = useState("");
   const { token, setToken } = authContext;
 
-  useEffect(() => {
+  /* useEffect(() => {
     getLoginHistory((data) => {
       console.log("Login history data:", data);
       // You could update state here if you want to display or process it
     });
-  }, []);
+  }, []); */
 
   /**
    * This function handles form submission. It also logs the username to a text file on successful login.
@@ -75,7 +75,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
         const success = await login(username, password);
 
         if (success) {
-          logLogin(username);
+          //logLogin(username);
           window.alert("Logged in");
           navigation.navigate("BulletinChoice");
         } else {
@@ -102,7 +102,6 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.innerContainer}>
         <View style={styles.topHeader}>
-          
           <TouchableOpacity onPress={() => navigation.navigate("Atrium")}>
             <Image
               source={require("../Logo2.png")} // or your image path
@@ -160,107 +159,17 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
             </TouchableOpacity>
           </View>
 
-
-
-
-<TouchableOpacity style = {styles.backButton} onPress={() => navigation.navigate("Atrium")}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.navigate("Atrium")}
+          >
             <Image
               source={require("../Back02.png")} // or your image path
               style={styles.logo}
             />
           </TouchableOpacity>
-
-
-
-
-
-
-
-      {/*     <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Text
-              style={{
-                fontSize: fontContext?.fontSize || 16,
-                textAlign: "center",
-              }}
-            >
-              Back
-            </Text>
-          </TouchableOpacity> */}
-
-
-
         </View>
       </View>
     </ScrollView>
   );
 }
-
-/**
- * This is the styling for the UI.
- */
-
-/* const styles = StyleSheet.create({
-  tabs: {
-    flexDirection: "row",
-  },
-
-  Button: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    backgroundColor: "#FFF5E6",
-    borderRadius: 20,
-    marginVertical: 10,
-  },
-
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  headerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  lowerButtons: {
-    flex: 1,
-    flexDirection: "row",
-    marginLeft: 15,
-    marginRight: 15,
-  },
-  input: {
-    color: "white",
-    backgroundColor: "blue",
-    borderRadius: 15,
-    marginTop: 15,
-    marginBottom: 15,
-  },
-  backButton: {
-    marginTop: 20,
-    marginLeft: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-
-  buttonLeft: {
-    flex: 1,
-    marginRight: 10,
-    marginTop: 10,
-    marginBottom: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-
-  buttonRight: {
-    flex: 1,
-    marginLeft: 10,
-    marginTop: 10,
-    marginBottom: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-});
- */

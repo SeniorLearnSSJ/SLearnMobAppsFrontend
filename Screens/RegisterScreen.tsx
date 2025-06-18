@@ -11,14 +11,17 @@ import {
   Alert,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
 import { api } from "../api";
-import { AuthContext } from "../Context/AuthContext";
+//import { AuthContext } from "../Context/AuthContext";
 import { useContext } from "react";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
+import { styles } from "../styles";
+import axios from "axios";
 
 /**
  * Adds screen to navigation stack.
@@ -41,12 +44,12 @@ const API_BASE = "http://192.168.1.244:5143/api/auth";
  */
 
 export default function RegisterScreen({ navigation }: RegisterScreenProps) {
-  const auth = useContext(AuthContext);
+  /*   const auth = useContext(AuthContext);
   const fontContext = useContext(FontContext);
   if (!auth) {
     return <Text>Loading...</Text>;
   }
-  const { token, setToken } = auth;
+  const { token, setToken } = auth; */
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -54,33 +57,7 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-
-  /* interface RegisterData {
-
-  username: String;
-  password: String;
-  firstName: String;
-  lastName: String;
-  email: String
-
-} 
-
-const [registerData, setRegisterData] = useState({
-  username: '',
-  password: '',
-  firstName: '',
-  lastName: '',
-  email: '',
-});
- */
-
-  /*  useEffect(() => {
-    fetch(API_BASE)
-      .then(res => res.json())
-      .then(data => console.log(data))
-      .finally(() => setLoading(false));
-  }, []);
- */
+  const fontContext = useContext(FontContext);
 
   /**
    * A method to handle form submission with validation.
@@ -103,13 +80,17 @@ const [registerData, setRegisterData] = useState({
     setLoading(true);
 
     try {
-      const res = await api.post(`${API_BASE}/register`, {
-        username,
-        password,
-        firstName,
-        lastName,
-        email,
-      });
+      const res = await axios.post(
+        `${API_BASE}/register`,
+        {
+          username,
+          password,
+          firstName,
+          lastName,
+          email,
+        },
+        { headers: { "Content-Type": "application/json" } }
+      );
 
       if (res.data.success) {
         window.alert("registration successful");
@@ -129,151 +110,90 @@ const [registerData, setRegisterData] = useState({
    * The UI
    */
   return (
-    <ScrollView>
-      <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-        Register Screen
-      </Text>
-
-      <TextInput
-        placeholder="Enter username"
-        value={username}
-        onChangeText={(newText) => setUsername(newText)}
-        style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
-      />
-
-      <TextInput
-        placeholder="Enter password"
-        value={password}
-        onChangeText={(newText) => setPassword(newText)}
-        secureTextEntry={true}
-        style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
-      />
-
-      <TextInput
-        placeholder="Enter firstName"
-        value={firstName}
-        onChangeText={(newText) => setFirstName(newText)}
-        style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
-      />
-
-      <TextInput
-        placeholder="Enter last name"
-        value={lastName}
-        onChangeText={(newText) => setLastName(newText)}
-        style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
-      />
-
-      <TextInput
-        placeholder="Enter email"
-        value={email}
-        onChangeText={(newText) => setEmail(newText)}
-        style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
-      />
-
-      <View style={styles.bottomButtons}>
+    <ScrollView contentContainerStyle={styles.colorPurple}>
+      <View style={styles.headerRow}>
         <TouchableOpacity
-          style={styles.buttonLeft}
+          style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <Text
-            style={{
-              color: "white",
-              fontSize: fontContext?.fontSize || 16,
-              //backgroundColor: "black",
-            }}
-          >
-            Back
-          </Text>
+          <Image
+            source={require("../Back02.png")} // or your image path
+            style={styles.logo}
+          />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonRight} onPress={handleSubmit}>
-          <Text
-            style={{
-              color: "white",
-              fontSize: fontContext?.fontSize || 16,
-              //backgroundColor: "black",
-            }}
-          >
-            Register
-          </Text>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.navigate("Login")}
+        >
+          <Image
+            source={require("../Logo2.png")} // or your image path
+            style={styles.logo}
+          />
         </TouchableOpacity>
+
+        {username && (
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.navigate("Profile")}
+          >
+            <Image
+              source={require("../Profile.png")} // or your image path
+              style={styles.logo}
+            />
+          </TouchableOpacity>
+        )}
       </View>
 
-      {/*       <Button title="Register" onPress={handleSubmit} /> */}
+      <View style={styles.shiftCenter}>
+        <TextInput
+          placeholder="Enter username"
+          value={username}
+          onChangeText={(newText) => setUsername(newText)}
+          style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
+        />
 
-      {/* <Button
-        title="Register"
-        onPress={() => navigation.navigate('Login',{username, password} )}
-      />
- */}
+        <TextInput
+          placeholder="Enter password"
+          value={password}
+          onChangeText={(newText) => setPassword(newText)}
+          secureTextEntry={true}
+          style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
+        />
+
+        <TextInput
+          placeholder="Enter firstName"
+          value={firstName}
+          onChangeText={(newText) => setFirstName(newText)}
+          style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
+        />
+
+        <TextInput
+          placeholder="Enter last name"
+          value={lastName}
+          onChangeText={(newText) => setLastName(newText)}
+          style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
+        />
+
+        <TextInput
+          placeholder="Enter email"
+          value={email}
+          onChangeText={(newText) => setEmail(newText)}
+          style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
+        />
+
+        <View style={styles.bottomButtons}>
+          <TouchableOpacity style={styles.buttonRight} onPress={handleSubmit}>
+            <Text
+              style={{
+                fontSize: fontContext?.fontSize || 16,
+              }}
+            >
+              Register
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </ScrollView>
   );
 }
-
-/**
- * Styling
- */
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    paddingBottom: 100,
-    backgroundColor: "#FFF5E6",
-  },
-
-  list: {},
-
-  input: {
-    backgroundColor: "blue",
-    color: "white",
-    borderRadius: 10,
-    margin: 20,
-  },
-
-  bottomButtons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 30,
-  },
-
-  buttonLeft: {
-    flex: 1,
-    marginRight: 10,
-    marginTop: 10,
-    marginBottom: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-
-  buttonRight: {
-    flex: 1,
-    marginLeft: 10,
-    marginTop: 10,
-    marginBottom: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-
-  headerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-
-  backButton: {
-    backgroundColor: "black",
-    borderRadius: 15,
-  },
-  buttonDisabled: {
-    backgroundColor: "grey",
-  },
-  bulletinButton: {
-    backgroundColor: "blue",
-    borderRadius: 15,
-    marginBottom: 10,
-  },
-  bulletinText: {
-    color: "white",
-  },
-});

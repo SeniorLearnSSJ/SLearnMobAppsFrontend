@@ -3,7 +3,15 @@
  */
 
 import React from "react";
-import { View, Text, Button, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
 import { ItemContext } from "../Context/context";
@@ -14,6 +22,8 @@ import { StyleSheet } from "react-native";
 
 import { useAuth } from "../Context/AuthContext";
 import { FontContext } from "../Context/fontContext";
+import { styles } from "../styles";
+import { Picker } from "@react-native-picker/picker";
 
 /**
  * This adds the screen to the navigation stack.
@@ -55,7 +65,7 @@ export default function EditScreen({ navigation, route }: EditScreenProps) {
     return item?.category ?? 0;
   });
   const [content, setContent] = useState(item.content ?? "");
-
+  //const [selectedValue, setSelectedValue] = useState<string>("Interest");
   /**
    * This function handles form submission.
    * @returns It has no return value.
@@ -151,217 +161,138 @@ export default function EditScreen({ navigation, route }: EditScreenProps) {
    */
   return (
     <ScrollView>
+      <View style={styles.headerRow}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Image
+            source={require("../Back02.png")} // or your image path
+            style={styles.logo}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.navigate("Atrium")}
+        >
+          <Image
+            source={require("../Logo2.png")} // or your image path
+            style={styles.logo}
+          />
+        </TouchableOpacity>
+
+        {username && (
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.navigate("Profile")}
+          >
+            <Image
+              source={require("../Profile.png")} // or your image path
+              style={styles.logo}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+
       <View>
         <View style={styles.headerRow}>
           <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
             Member bulletin details
           </Text>
+        </View>
 
-          {username && (
-            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-              <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
-                ID: {username}
+        <View style={styles.shiftCenter}>
+          <Text
+            style={[
+              styles.shiftCenter,
+              { fontSize: fontContext?.fontSize || 16 },
+            ]}
+          >
+            Title
+          </Text>
+
+          <TextInput
+            style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
+            value={title}
+            onChangeText={setTitle}
+          ></TextInput>
+
+          <View style={styles.container}>
+            <Text style={styles.headerText}>Select an option:</Text>
+            <Picker
+              selectedValue={category}
+              onValueChange={(itemValue) => setCategory(itemValue)}
+              style={[styles.picker, { fontSize: fontContext?.fontSize || 16 }]}
+            >
+              <Picker.Item
+                label="Interest"
+                value={MemberBulletinCategory.Interest}
+                style={{ fontSize: fontContext?.fontSize || 16 }}
+              />
+              <Picker.Item
+                label="Update"
+                value={MemberBulletinCategory.Update}
+                style={{ fontSize: fontContext?.fontSize || 16 }}
+              />
+              <Picker.Item
+                label="Event"
+                value={MemberBulletinCategory.Event}
+                style={{ fontSize: fontContext?.fontSize || 16 }}
+              />
+            </Picker>
+
+            <Text
+              style={[
+                styles.selectedText,
+                { fontSize: fontContext?.fontSize || 16 },
+              ]}
+            >
+              Selected:{MemberBulletinCategory[category]}
+            </Text>
+          </View>
+
+          <Text
+            style={[
+              styles.shiftCenter,
+              { fontSize: fontContext?.fontSize || 16 },
+            ]}
+          >
+            Content
+          </Text>
+
+          <TextInput
+            style={[styles.fatInput, { fontSize: fontContext?.fontSize || 16 }]}
+            value={content}
+            onChangeText={setContent}
+          ></TextInput>
+
+          <View style={styles.bottomButtons}>
+            <TouchableOpacity style={[styles.buttonLeft]} onPress={handleSubmit}>
+              <Text
+                style={{
+                  fontSize: fontContext?.fontSize || 16,
+                }}
+              >
+                Submit
               </Text>
             </TouchableOpacity>
-          )}
+
+            <TouchableOpacity
+              style={styles.buttonRight}
+              onPress={() => deleteItem(item.id)}
+            >
+              <Text
+                style={{
+                  fontSize: fontContext?.fontSize || 16,
+                }}
+              >
+                Delete
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-
-        {/* 
-      <Text>{item.type}</Text> */}
-
-        <Text style={{ fontSize: fontContext?.fontSize || 16 }}>{item.id}</Text>
-
-        <View style={styles.tabs}>
-          <TouchableOpacity
-            style={[
-              styles.Button,
-              { backgroundColor: "black", marginRight: 10 },
-            ]}
-            onPress={() => handleTypeSelect(0)}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontSize: fontContext?.fontSize || 16,
-                backgroundColor: "black",
-              }}
-            >
-              Interest
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              styles.Button,
-              { backgroundColor: "black", marginRight: 10 },
-            ]}
-            onPress={() => handleTypeSelect(1)}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontSize: fontContext?.fontSize || 16,
-                backgroundColor: "black",
-              }}
-            >
-              Event
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.Button, { backgroundColor: "black" }]}
-            onPress={() => handleTypeSelect(2)}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontSize: fontContext?.fontSize || 16,
-                backgroundColor: "black",
-              }}
-            >
-              Update
-            </Text>
-          </TouchableOpacity>
-
-          {/* 
-
-        <Button title="Interest" onPress={() => handleTypeSelect(0)} />
-
-        <Button title="Event" onPress={() => handleTypeSelect(1)} />
-
-        <Button title="Update" onPress={() => handleTypeSelect(2)} /> */}
-        </View>
-
-        <Text style={{ fontSize: fontContext?.fontSize || 16 }}>Title</Text>
-
-        {/* <TextInput value={type} onChangeText={setType}></TextInput> */}
-
-        <TextInput
-          style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
-          value={title}
-          onChangeText={setTitle}
-        ></TextInput>
-
-        <Text style={{ fontSize: fontContext?.fontSize || 16 }}>Content</Text>
-
-        <TextInput
-          style={[styles.input, { fontSize: fontContext?.fontSize || 16 }]}
-          value={content}
-          onChangeText={setContent}
-        ></TextInput>
-
-        <View style={styles.lowerButtons}>
-          <TouchableOpacity
-            style={[
-              styles.Button,
-              { backgroundColor: "black", marginRight: 15 },
-            ]}
-            onPress={handleSubmit}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontSize: fontContext?.fontSize || 16,
-                backgroundColor: "black",
-              }}
-            >
-              Submit
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.Button, { backgroundColor: "black" }]}
-            onPress={() => deleteItem(item.id)}
-          >
-            <Text
-              style={{
-                color: "white",
-                fontSize: fontContext?.fontSize || 16,
-                backgroundColor: "black",
-              }}
-            >
-              Delete
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Text
-            style={{
-              fontSize: fontContext?.fontSize || 16,
-              textAlign: "center",
-              color: "white",
-            }}
-          >
-            Back
-          </Text>
-        </TouchableOpacity>
-
-        {/* 
-      <Button
-        title="Submit"
-        onPress={() => {
-          handleSubmit();
-        }}
-      />
-
-      <Button
-        title="Delete"
-        onPress={() => {
-          deleteItem(item.id);
-        }}
-      />
-
- */}
       </View>
     </ScrollView>
   );
 }
-
-/**
- * This is the styling for the UI above.
- */
-
-const styles = StyleSheet.create({
-  tabs: {
-    flexDirection: "row",
-  },
-
-  Button: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    backgroundColor: "#FFF5E6",
-    borderRadius: 20,
-    marginVertical: 10,
-  },
-
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  headerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  lowerButtons: {
-    flexDirection: "row",
-    marginLeft: 15,
-    marginRight: 15,
-  },
-  input: {
-    color: "white",
-    backgroundColor: "blue",
-    borderRadius: 15,
-  },
-  backButton: {
-    marginTop: 20,
-    marginLeft: 10,
-    borderRadius: 10,
-    backgroundColor: "black",
-  },
-});

@@ -132,7 +132,7 @@ export default function AddScreen({ navigation }: AddScreenProps) {
         <View style={styles.headerRow}>
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("MemberBulletinSummary")}
           >
             <Image
               source={require("../Back02.png")} // or your image path
@@ -196,8 +196,11 @@ export default function AddScreen({ navigation }: AddScreenProps) {
 
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <TouchableOpacity
-           
-              style={[styles.event, category === MemberBulletinCategory.Interest && styles.selectedCategory]}
+            style={[
+              styles.event,
+              category === MemberBulletinCategory.Interest &&
+                styles.selectedCategory,
+            ]}
             onPress={() => handleTypeSelect(MemberBulletinCategory.Interest)}
           >
             <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
@@ -207,7 +210,11 @@ export default function AddScreen({ navigation }: AddScreenProps) {
           </TouchableOpacity>
 
           <TouchableOpacity
-           style={[styles.event, category === MemberBulletinCategory.Update && styles.selectedCategory]}
+            style={[
+              styles.event,
+              category === MemberBulletinCategory.Update &&
+                styles.selectedCategory,
+            ]}
             onPress={() => handleTypeSelect(MemberBulletinCategory.Update)}
           >
             <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
@@ -217,7 +224,11 @@ export default function AddScreen({ navigation }: AddScreenProps) {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.event, category === MemberBulletinCategory.Event && styles.selectedCategory]}
+            style={[
+              styles.event,
+              category === MemberBulletinCategory.Event &&
+                styles.selectedCategory,
+            ]}
             onPress={() => handleTypeSelect(MemberBulletinCategory.Event)}
           >
             <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
@@ -251,34 +262,6 @@ export default function AddScreen({ navigation }: AddScreenProps) {
             Submit{" "}
           </Text>
         </TouchableOpacity>
-
-        {/*         <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Text
-            style={{
-              fontSize: fontContext?.fontSize || 16,
-              textAlign: "center",
-              color: "white",
-            }}
-          >
-            Back
-          </Text>
-        </TouchableOpacity> */}
-
-        {/*       <Button title="1" onPress={() => handleTypeSelect("1")} />
-
-      <Button title="2" onPress={() => handleTypeSelect("2")} />
-
-      <Button title="3" onPress={() => handleTypeSelect("3")} />
-
-      <TextInput
-        placeholder="Enter title"
-        onChangeText={(newText) => setTitle(newText)}
-      />
-
-      <Button title="Submit" onPress={handleSubmit} /> */}
       </View>
     </ScrollView>
   );
