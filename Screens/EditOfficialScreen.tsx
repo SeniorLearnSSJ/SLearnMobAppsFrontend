@@ -150,7 +150,7 @@ export default function EditOfficialScreen({
 
             <TouchableOpacity
               style={styles.backButton}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.navigate("Atrium")}
             >
               <Image
                 source={require("../Logo2.png")} // or your image path

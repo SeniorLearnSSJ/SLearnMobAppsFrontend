@@ -124,7 +124,7 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
 
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => navigation.navigate("Atrium")}
         >
           <Image
             source={require("../Logo2.png")} // or your image path

@@ -171,6 +171,8 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
 
+  const sortedBulletins = [...todayBulletins, ...earlierBulletins];
+
   /**
    * This function renders the items and allows for pressability and navigation to the item's details.
    * @param param0 Item of type official bullletin.
@@ -178,6 +180,10 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
    */
 
   const renderItem = ({ item }: { item: IOfficialBulletin }) => (
+
+
+
+    
     <TouchableOpacity
       style={styles.listItem}
       onPress={() => navigation.navigate("OfficialBulletinsDetails", { item })}
@@ -194,7 +200,8 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
    * This returns the UI.
    */
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    //<ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.colorPurple}>
       <View style={{ flex: 1 }}>
         <View style={styles.headerRow}>
           <TouchableOpacity
@@ -209,7 +216,7 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
 
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => navigation.navigate("OfficialBulletinsSummary")}
+            onPress={() => navigation.navigate("Atrium")}
           >
             <Image
               source={require("../Logo2.png")} // or your image path
@@ -278,7 +285,8 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
           </TouchableOpacity>
         )}
       </View>
-    </ScrollView>
+    </View>
+    // </ScrollView>
   );
 };
 

@@ -235,7 +235,7 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
    * This UI has conditioanl rendering.  If a suggestion is entered in the search bar AND there is a prefix match, the UI renders those suggestions.  If no prefix matches are found, the UI renders the bulletins filtered by category and also by substring match.
    */
   return (
-    <ScrollView>
+    //<ScrollView>
       <View style = {styles.container}>
       <View style={{ flex: 1 }}>
         <View style={styles.headerRow}>
@@ -320,7 +320,7 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
         </View>
       </View>
       </View>
-    </ScrollView>
+   // </ScrollView>
   );
 };
 

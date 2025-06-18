@@ -206,7 +206,7 @@ export default function SettingsScreen({ navigation }: SettingsScreenProps) {
 
             <TouchableOpacity
               style={styles.backButton}
-              onPress={() => navigation.navigate("Profile")}
+              onPress={() => navigation.navigate("Atrium")}
             >
               <Image
                 source={require("../Logo2.png")} // or your image path

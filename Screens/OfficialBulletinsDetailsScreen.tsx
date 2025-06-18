@@ -16,7 +16,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { IOfficialBulletin, RootStackParamList } from "../types";
 import { ItemContext } from "../Context/context";
 import { ItemContextType, IItem } from "../types";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ListNode, DoublyLinkedList } from "../helper";
 import { useAuth } from "../Context/AuthContext";
 import { FontContext } from "../Context/fontContext";
@@ -62,7 +62,32 @@ export default function OfficialBulletinsDetailsScreen({
     deleteOfficialBulletins,
     loadingOfficial,
   } = context;
-  const { item } = route.params as { item: IOfficialBulletin };
+  const { item } = route.params as { item: IOfficialBulletin}
+  
+  useEffect(() => {
+  if (officialBulletinList.length === 0 && officialBulletins.length > 0) {
+    console.log("📦 Rebuilding linked list on details screen.");
+    officialBulletinList.buildFromArray(
+      officialBulletins.map((b) => ({
+        id: b.id,
+        title: b.title,
+        datetime: new Date(b.createdAt),
+        content: b.content,
+      }))
+    );
+  }
+}, [officialBulletins]);
+    
+
+
+
+
+
+
+
+
+
+    
   const currentNode = officialBulletinList.getNodeById(item.id);
   const { username } = useAuth();
 
@@ -142,7 +167,7 @@ export default function OfficialBulletinsDetailsScreen({
 
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => navigation.navigate("OfficialBulletinsSummary")}
+            onPress={() => navigation.navigate("Atrium")}
           >
             <Image
               source={require("../Logo2.png")} // or your image path
@@ -216,9 +241,19 @@ export default function OfficialBulletinsDetailsScreen({
                 !canPrev && styles.buttonDisabled,
                 { marginTop: 30 },
               ]}
-              onPress={() =>
-                currentNode?.prev && handleNavigate(currentNode.prev)
-              }
+              onPress={() => {
+                if (canPrev && currentNode?.prev) {
+                  const prevNode = currentNode.prev;
+                  navigation.replace("OfficialBulletinsDetails", {
+                    item: {
+                      id: prevNode.id,
+                      title: prevNode.title,
+                      createdAt: prevNode.datetime.toISOString(),
+                      content: prevNode.content,
+                    },
+                  });
+                }
+              }}
               disabled={!currentNode || !currentNode.prev}
             >
               <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
@@ -233,9 +268,23 @@ export default function OfficialBulletinsDetailsScreen({
                 { marginTop: 30 },
               ]}
               disabled={!currentNode || !currentNode.next}
-              onPress={() =>
-                currentNode?.next && handleNavigate(currentNode.next)
-              }
+              // onPress={() =>
+              //   currentNode?.next && handleNavigate(currentNode.next)
+              // }
+
+              onPress={() => {
+                if (canNext && currentNode?.next) {
+                  const nextNode = currentNode.next;
+                  navigation.replace("OfficialBulletinsDetails", {
+                    item: {
+                      id: nextNode.id,
+                      title: nextNode.title,
+                      createdAt: nextNode.datetime.toISOString(),
+                      content: nextNode.content,
+                    },
+                  });
+                }
+              }}
             >
               <Text style={{ fontSize: fontContext?.fontSize || 16 }}>
                 Next
