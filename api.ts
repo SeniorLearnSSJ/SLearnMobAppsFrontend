@@ -2,7 +2,7 @@
 
 
 import axios from "axios";
-
+import { API_URL } from "@env";
 
 
 /**
@@ -26,7 +26,7 @@ export async function ApiLogin(
   password: string
 ): Promise<{ success: boolean; token?: string; role?: string; message?: string }> {
   try {
-    const response = await api.post("http://172.19.159.72:5143/api/auth/sign-in", {
+    const response = await api.post(`${API_URL}/api/auth/sign-in`, {
       username,
       password,
     });

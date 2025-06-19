@@ -36,7 +36,7 @@ type LoginScreenProps = NativeStackScreenProps<RootStackParamList, "Login">;
  * This makes the URL easily handled and readable.
  */
 
-const API_BASE = `${API_URL}:5143/api/auth/sign-in`;
+const API_BASE = `${API_URL}/api/auth/sign-in`;
 
 /**
  * This functional component takes navigation props and returns no specific value.  It manages state and context.
