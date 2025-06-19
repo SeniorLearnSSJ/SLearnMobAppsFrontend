@@ -30,7 +30,7 @@ import { FontContext } from "../Context/fontContext";
 import { enableFreeze, enableScreens } from "react-native-screens";
 import { StyleSheet } from "react-native";
 import { styles } from "../styles";
-import { API_URL } from "@env";
+import { API_URL } from "../apiConfig";
 
 /**
  * Adds screen to navigation stack.

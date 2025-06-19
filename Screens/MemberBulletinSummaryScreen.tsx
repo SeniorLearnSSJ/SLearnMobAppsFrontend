@@ -29,7 +29,7 @@ import { Trie, TrieNode } from "../Trie";
 import { useAuth } from "../Context/AuthContext";
 import { MemberBulletinCategory } from "../types";
 import { styles } from "../styles";
-import { API_URL } from "@env";
+import { API_URL } from "../apiConfig";
 /**
  * This enumerable mapper maps the enums from string to number.
  */

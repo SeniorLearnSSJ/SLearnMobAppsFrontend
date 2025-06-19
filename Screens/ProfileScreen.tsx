@@ -23,7 +23,7 @@ import { ItemContext } from "../Context/context";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 import { styles } from "../styles";
-import { API_URL } from "@env";
+import { API_URL } from "../apiConfig";
 
 /**
  * Adds screen to navigation stack.

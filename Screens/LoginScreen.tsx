@@ -24,7 +24,7 @@ import { StyleSheet } from "react-native";
 //import { logLogin, getLoginHistory } from "../logLogins";
 import { Image } from "react-native";
 import { styles } from "../styles";
-import { API_URL } from "@env";
+import { API_URL } from "../apiConfig";
 
 /**
  * This adds the screen to the navigation stack.

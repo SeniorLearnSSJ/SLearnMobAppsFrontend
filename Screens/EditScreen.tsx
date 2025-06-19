@@ -24,7 +24,7 @@ import { useAuth } from "../Context/AuthContext";
 import { FontContext } from "../Context/fontContext";
 import { styles } from "../styles";
 import { Picker } from "@react-native-picker/picker";
-import {API_URL} from "@env";
+import {API_URL} from "../apiConfig";
 
 /**
  * This adds the screen to the navigation stack.

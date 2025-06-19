@@ -8,7 +8,7 @@ import { ItemContextType, IItem, IOfficialBulletin } from "../types";
 import { DoublyLinkedList } from "../helper";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { API_URL } from "@env";
+import { API_URL } from "../apiConfig";
 
 /**
  * This function creates a context object of type ItemContextType.  It has a default initial value of null.

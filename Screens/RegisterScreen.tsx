@@ -22,7 +22,7 @@ import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 import { styles } from "../styles";
 import axios from "axios";
-import { API_URL } from "@env";
+import { API_URL } from "../apiConfig";
 /**
  * Adds screen to navigation stack.
  */

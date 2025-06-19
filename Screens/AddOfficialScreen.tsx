@@ -22,7 +22,7 @@ import { useAuth } from "../Context/AuthContext";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { styles } from "../styles";
-import { API_URL } from "@env";
+import { API_URL } from "../apiConfig";
 
 /**
  * This constant sets the backend API to a more readable format.

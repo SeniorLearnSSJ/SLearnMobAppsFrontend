@@ -22,7 +22,7 @@ import { useAuth } from "../Context/AuthContext";
 import { StyleSheet } from "react-native";
 import { styles } from "../styles";
 import { MemberBulletinCategory } from "../types";
-import { API_URL } from "@env";
+import { API_URL } from "../apiConfig";
 /**
  * Adds the screen to navigation stack.
  */
