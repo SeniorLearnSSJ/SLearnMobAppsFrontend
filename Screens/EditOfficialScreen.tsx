@@ -21,6 +21,7 @@ import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native";
 import { styles } from "../styles";
+import { API_URL } from "@env";
 
 /**
  * This adds the screen to the navigation stack.
@@ -34,7 +35,7 @@ type EditOfficialScreenProps = NativeStackScreenProps<
 /**
  * This makes the URL readable.
  */
-const API_BASE = "http://172.19.159.72:5143/api/bulletins/official";
+const API_BASE = `${API_URL}/api/bulletins/official`;
 
 /**
  * This functional component takes navigation props and route parameters. It returns the UI and manages state.

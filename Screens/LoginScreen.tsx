@@ -24,6 +24,7 @@ import { StyleSheet } from "react-native";
 //import { logLogin, getLoginHistory } from "../logLogins";
 import { Image } from "react-native";
 import { styles } from "../styles";
+import { API_URL } from "@env";
 
 /**
  * This adds the screen to the navigation stack.
@@ -35,7 +36,7 @@ type LoginScreenProps = NativeStackScreenProps<RootStackParamList, "Login">;
  * This makes the URL easily handled and readable.
  */
 
-const API_URL = "http://172.19.159.72:5143/api/auth/sign-in";
+const API_BASE = `${API_URL}:5143/api/auth/sign-in`;
 
 /**
  * This functional component takes navigation props and returns no specific value.  It manages state and context.

@@ -29,6 +29,7 @@ import { Trie, TrieNode } from "../Trie";
 import { useAuth } from "../Context/AuthContext";
 import { MemberBulletinCategory } from "../types";
 import { styles } from "../styles";
+import { API_URL } from "@env";
 /**
  * This enumerable mapper maps the enums from string to number.
  */
@@ -43,7 +44,7 @@ const categoryEnumMap: Record<string, number> = {
  * This makes the URL easier to handle.
  */
 
-const API_URL = "http://172.19.159.72:5143/api/bulletins/member";
+const API_BASE = `${API_URL}/api/bulletins/member`;
 
 /**
  * This adds the screen to the navigation stack.
@@ -135,7 +136,7 @@ const MemberBulletinSummary: React.FC<Props> = ({ navigation }) => {
 
         try {
           //const response = await fetch(API_URL);
-          const response = await fetch(API_URL, {
+          const response = await fetch(API_BASE, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",

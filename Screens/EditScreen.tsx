@@ -24,6 +24,7 @@ import { useAuth } from "../Context/AuthContext";
 import { FontContext } from "../Context/fontContext";
 import { styles } from "../styles";
 import { Picker } from "@react-native-picker/picker";
+import {API_URL} from "@env";
 
 /**
  * This adds the screen to the navigation stack.
@@ -34,7 +35,7 @@ type EditScreenProps = NativeStackScreenProps<RootStackParamList, "Edit">;
 /**
  * This assigns a readable constant to the API.
  */
-const API_BASE = "http://172.19.159.72:5143/api/bulletins/member";
+const API_BASE = `${API_URL}/api/bulletins/member`;
 
 /**
  * This functioanl component takes nav props and route params.  It returns the UI.

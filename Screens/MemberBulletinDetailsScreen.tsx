@@ -21,12 +21,13 @@ import { useAuth } from "../Context/AuthContext";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 import { styles } from "../styles";
+import { API_URL } from "@env";
 
 /**
  * This makes the URL readable and easier to handle
  */
 
-const API_URL = "http://172.19.159.72:5143/api/bulletins/member";
+const API_BASE = `${API_URL}/api/bulletins/member`;
 
 /**
  * This adds the screen to the navigation stack.
@@ -64,7 +65,7 @@ export default function MemberBulletinDetailsScreen({
    */
   const deleteItem = async (idToDelete: string) => {
     try {
-      const response = await fetch(`${API_URL}/${idToDelete}`, {
+      const response = await fetch(`${API_BASE}/${idToDelete}`, {
         method: "DELETE",
 
         headers: {

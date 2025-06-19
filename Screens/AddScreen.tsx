@@ -22,7 +22,7 @@ import { useAuth } from "../Context/AuthContext";
 import { StyleSheet } from "react-native";
 import { styles } from "../styles";
 import { MemberBulletinCategory } from "../types";
-
+import { API_URL } from "@env";
 /**
  * Adds the screen to navigation stack.
  */
@@ -31,7 +31,7 @@ type AddScreenProps = NativeStackScreenProps<RootStackParamList, "Add">;
 /**
  * Makes the API readable.
  */
-const API_URL = "http://172.19.159.72:5143/api/bulletins/member";
+const API_BASE = `${API_URL}/api/bulletins/member`;
 
 /**
  * A functioanl component.  Makes state management and context available to all its child components.

@@ -30,6 +30,7 @@ import { FontContext } from "../Context/fontContext";
 import { enableFreeze, enableScreens } from "react-native-screens";
 import { StyleSheet } from "react-native";
 import { styles } from "../styles";
+import { API_URL } from "@env";
 
 /**
  * Adds screen to navigation stack.
@@ -50,7 +51,7 @@ type SettingsScreenProps = NativeStackScreenProps<
 /**
  * Makes URL readable.
  */
-const Settings_API_URL = "http://172.19.159.72:5143/api/profile/settings";
+const Settings_API_URL = `${API_URL}/api/profile/settings`;
 
 /**
  * Defines the screen component.

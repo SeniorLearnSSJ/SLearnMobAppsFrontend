@@ -23,6 +23,7 @@ import { useAuth } from "../Context/AuthContext";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 import { styles } from "../styles";
+import { API_URL } from "@env";
 
 /**
  * Adds the screen to navigation.
@@ -36,7 +37,7 @@ type Props = NativeStackScreenProps<
  * Makes URL readable.
  */
 
-const API_URL = "http://172.19.159.72:5143/api/bulletins/official";
+const API_BASE = `${API_URL}/api/bulletins/official`;
 
 /**
  * Screen component
@@ -64,7 +65,7 @@ const OfficialBulletinsSummary: React.FC<Props> = ({ navigation }) => {
   useEffect(() => {
     const getItems = async () => {
       try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(API_BASE, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

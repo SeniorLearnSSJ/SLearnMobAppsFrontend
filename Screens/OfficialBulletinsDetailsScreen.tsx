@@ -22,6 +22,7 @@ import { useAuth } from "../Context/AuthContext";
 import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 import { styles } from "../styles";
+import { API_URL } from "@env";
 /**
 
 /**
@@ -37,7 +38,7 @@ type OfficialBulletinsDetailsScreenProps = NativeStackScreenProps<
  * This makes the API readable.
  */
 
-const API_URL = "http://172.19.159.72:5143/api/bulletins/official";
+const API_BASE = `${API_URL}/api/bulletins/official`;
 
 /**
  * This functional commponent renders the screen UI.
@@ -97,7 +98,7 @@ export default function OfficialBulletinsDetailsScreen({
    */
   const deleteItem = async (idToDelete: string) => {
     try {
-      const response = await fetch(`${API_URL}/${idToDelete}`, {
+      const response = await fetch(`${API_BASE}/${idToDelete}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

@@ -22,7 +22,7 @@ import { FontContext } from "../Context/fontContext";
 import { StyleSheet } from "react-native";
 import { styles } from "../styles";
 import axios from "axios";
-
+import { API_URL } from "@env";
 /**
  * Adds screen to navigation stack.
  */
@@ -35,7 +35,7 @@ type RegisterScreenProps = NativeStackScreenProps<
 /**
  * Makes URL readable.
  */
-const API_BASE = "http://172.19.159.72:5143/api/auth";
+const API_BASE = `${API_URL}/api/auth`;
 
 /**
  * Defines the component
