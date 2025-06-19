@@ -90,7 +90,7 @@ saveFontSize();
         }
         // Fetch fresh data from API
         const response = await fetch(
-          "http://192.168.1.244:5143/api/bulletins/member"
+          "http://172.19.159.72:5143/api/bulletins/member"
         );
         const json = await response.json();
         setBulletins(json.data ?? []);
@@ -109,7 +109,7 @@ saveFontSize();
       async function fetchMemberBulletins() {
         setLoadingMember (true);
         try {
-          const response = await fetch("http://192.168.1.244:5143/api/bulletins/member"
+          const response = await fetch("http://172.19.159.72:5143/api/bulletins/member"
 );
           const json = await response.json();
           const fetchedMemberBulletins: IItem[] = json.data ?? [];
@@ -132,7 +132,7 @@ saveFontSize();
       async function fetchOfficialBulletins() {
         setLoadingOfficial(true)
         try {
-          const response = await fetch("http://192.168.1.244:5143/api/bulletins/official");
+          const response = await fetch("http://172.19.159.72:5143/api/bulletins/official");
           const json = await response.json();
           const fetchedOfficialBulletins: IOfficialBulletin[] = json.data ?? [];
           setOfficialBulletins(fetchedOfficialBulletins); 
@@ -263,7 +263,7 @@ const mapped = officialBulletins.map(b=>({
 const refreshBulletins = async () => {
   setLoadingMember(true);
   try {
-    const response = await fetch("http://192.168.1.244:5143/api/bulletins/member");
+    const response = await fetch("http://172.19.159.72:5143/api/bulletins/member");
     const json = await response.json();
     setBulletins(json.data ?? []);
   } catch (error) {
